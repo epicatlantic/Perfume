@@ -53,11 +53,11 @@
   --input-bg: #2a2010;
   --deep: #0a0704;
 }
- 
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 90px; }
 body { background: var(--bg); color: var(--text); font-family: 'Cormorant Garamond', serif; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
- 
+
 /* ── NAV ── */
 nav {
   display: flex; justify-content: space-between; align-items: center;
@@ -83,7 +83,7 @@ nav ul li a:hover { opacity: 1; color: var(--gold); }
 .nav-dashboard { border: 1px solid var(--accent); color: var(--accent) !important; padding: 0.55rem 1.2rem; opacity: 1 !important; }
 .nav-dashboard:hover { background: var(--accent) !important; color: var(--accent-text) !important; }
 .nav-right { display: flex; align-items: center; gap: 1rem; flex-shrink: 0; }
- 
+
 /* DARK MODE TOGGLE */
 .theme-toggle { display: flex; align-items: center; gap: 0.5rem; }
 .theme-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); white-space: nowrap; }
@@ -102,14 +102,14 @@ nav ul li a:hover { opacity: 1; color: var(--gold); }
 [data-theme="light"] .toggle-thumb { background: var(--accent); }
 .toggle-track.on .toggle-thumb { transform: translateX(18px); background: #fff; }
 [data-theme="dark"] .toggle-track.on .toggle-thumb { background: var(--ink); }
- 
+
 /* HAMBURGER */
 .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; flex-shrink: 0; }
 .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--text); transition: all 0.3s; }
 .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
 .hamburger.open span:nth-child(2) { opacity: 0; }
 .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
- 
+
 /* ── HERO ── */
 .hero { display: grid; grid-template-columns: 1fr 1fr; min-height: 88vh; }
 .hero-left { padding: 6rem 4rem 4rem; display: flex; flex-direction: column; justify-content: center; position: relative; }
@@ -133,10 +133,10 @@ h1 em { font-style: italic; color: var(--gold); }
 .bottle-svg { width: 180px; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.5)); animation: floatBottle 6s ease-in-out infinite; }
 @keyframes floatBottle { 0%,100%{transform:translateY(0px) rotate(-2deg)} 50%{transform:translateY(-18px) rotate(2deg)} }
 .hero-tagline { color: rgba(240,232,216,0.5); font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 2rem; }
- 
+
 /* ── SECTION LABEL ── */
 .section-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
- 
+
 /* ── TRACKS ── */
 .tracks-section { padding: 8rem 4rem; background: var(--bg); }
 .tracks-header { text-align: center; margin-bottom: 5rem; }
@@ -167,7 +167,7 @@ h1 em { font-style: italic; color: var(--gold); }
 .track-card.subscription .track-cta:hover { background: var(--cream); }
 .track-card.direct .track-cta { background: var(--ink); color: var(--cream); }
 .track-card.direct .track-cta:hover { background: var(--gold); color: var(--ink); }
- 
+
 /* ── MODAL ── */
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(10,7,4,0.82); z-index: 500; align-items: center; justify-content: center; padding: 1.5rem; }
 .modal-overlay.active { display: flex; }
@@ -197,7 +197,19 @@ h1 em { font-style: italic; color: var(--gold); }
 .success-msg .check { font-size: 2.5rem; color: var(--gold); margin-bottom: 1rem; }
 .success-msg h3 { font-size: 1.5rem; font-weight: 300; color: var(--text); margin-bottom: 0.5rem; }
 .success-msg p { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--text3); }
- 
+.auth-error {
+  font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--blush);
+  margin: -0.4rem 0 0.8rem 0; min-height: 1px; line-height: 1.5;
+}
+.auth-error:empty { display: none; }
+.demo-code-box {
+  background: var(--accent-pale); border: 1px dashed var(--accent);
+  padding: 0.9rem 1rem; margin-bottom: 1.2rem; text-align: center;
+  font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--text2);
+  line-height: 1.6;
+}
+.demo-code-box strong { color: var(--accent); font-size: 1rem; letter-spacing: 0.15em; }
+
 /* ── PROGRESS ── */
 .progress-section { background: var(--bg3); padding: 7rem 4rem; color: var(--cream); position: relative; overflow: hidden; }
 .progress-section::before { content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 800px; height: 400px; background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%); }
@@ -218,7 +230,7 @@ h1 em { font-style: italic; color: var(--gold); }
 .milestone-badge { display: inline-flex; align-items: center; gap: 0.8rem; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.35); padding: 0.8rem 2rem; color: var(--gold); font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.15em; margin-bottom: 1.5rem; }
 .btn-reset-journey { background: none; border: 1px solid rgba(240,232,216,0.25); color: rgba(240,232,216,0.55); font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.6rem 1.6rem; cursor: pointer; transition: all 0.2s; margin-top: 0.5rem; }
 .btn-reset-journey:hover { border-color: var(--gold); color: var(--gold); }
- 
+
 /* ── LOGISTICS ── */
 .logistics-section { padding: 8rem 4rem; max-width: 1100px; margin: 0 auto; }
 .logistics-section > h2 { font-size: 2.5rem; font-weight: 300; margin-bottom: 4rem; color: var(--text); }
@@ -231,14 +243,14 @@ h1 em { font-style: italic; color: var(--gold); }
 .checklist-item h3 { font-size: 1.2rem; font-weight: 400; margin-bottom: 0.8rem; color: var(--text); }
 .checklist-item p { font-size: 0.95rem; line-height: 1.75; color: var(--text2); font-weight: 300; }
 .tag { display: inline-block; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3rem 0.8rem; margin-top: 1rem; color: var(--gold); }
- 
+
 /* ── SHOP — COLLECTION TABS ── */
 .shop-section { padding: 8rem 4rem; background: var(--bg2); }
 .shop-inner { max-width: 1100px; margin: 0 auto; }
 .shop-inner > h2 { font-size: clamp(2rem,4vw,2.8rem); font-weight: 300; margin-bottom: 0.6rem; color: var(--text); }
 .shop-inner > h2 em { font-style: italic; color: var(--gold); }
 .shop-inner > .shop-intro { font-size: 1rem; color: var(--text2); font-weight: 300; margin-bottom: 3rem; }
- 
+
 .collection-tabs { display: flex; gap: 3px; margin-bottom: 3.5rem; flex-wrap: wrap; }
 .col-tab {
   padding: 1rem 2rem; font-family: 'DM Mono', monospace; font-size: 0.68rem;
@@ -250,14 +262,14 @@ h1 em { font-style: italic; color: var(--gold); }
 .col-tab.active { background: var(--bg3); color: var(--accent); border-bottom-color: var(--accent); }
 [data-theme="dark"] .col-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
 .col-tab .tab-count { font-size: 0.55rem; opacity: 0.6; margin-left: 0.4rem; }
- 
+
 .collection-panel { display: none; }
 .collection-panel.active { display: block; }
- 
+
 .col-header { margin-bottom: 2.5rem; }
 .col-title { font-size: 1.8rem; font-weight: 300; color: var(--text); margin-bottom: 0.3rem; }
 .col-desc { font-size: 0.9rem; color: var(--text2); font-weight: 300; }
- 
+
 .products-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 3px; }
 .product-card { background: var(--card-bg); padding: 2.5rem 2rem; display: flex; flex-direction: column; transition: transform 0.2s; border: 1px solid var(--border); }
 .product-card:hover { transform: translateY(-4px); }
@@ -272,7 +284,7 @@ h1 em { font-style: italic; color: var(--gold); }
 .btn-add.added { background: var(--mist); color: #fff; }
 [data-theme="dark"] .btn-add { background: var(--gold); color: var(--ink); }
 [data-theme="dark"] .btn-add:hover { background: var(--cream); color: var(--ink); }
- 
+
 /* ── PRICING ── */
 .pricing-section { padding: 8rem 4rem; background: var(--bg); }
 .pricing-inner { max-width: 900px; margin: 0 auto; text-align: center; }
@@ -294,7 +306,7 @@ h1 em { font-style: italic; color: var(--gold); }
 .price-card .btn-primary { width: 100%; text-align: center; display: block; padding: 1rem; }
 .price-card.featured .btn-primary { background: var(--gold); color: var(--ink); }
 .price-card.featured .btn-primary:hover { background: var(--cream); color: var(--ink); }
- 
+
 /* ── CEO ── */
 .ceo-section { padding: 8rem 4rem; background: var(--bg3); color: var(--cream); position: relative; overflow: hidden; }
 .ceo-section::before { content: ''; position: absolute; top: -100px; right: -100px; width: 500px; height: 500px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.07); pointer-events: none; }
@@ -312,7 +324,7 @@ h1 em { font-style: italic; color: var(--gold); }
 .ceo-quote { font-size: 1.3rem; font-weight: 300; line-height: 1.75; color: rgba(240,232,216,0.88); font-style: italic; border-left: 2px solid var(--gold); padding-left: 1.5rem; margin-bottom: 2rem; }
 .ceo-bio { font-size: 0.95rem; line-height: 1.85; color: rgba(240,232,216,0.6); font-weight: 300; margin-bottom: 2.5rem; }
 .ceo-sig { font-size: 2rem; font-style: italic; font-weight: 300; color: var(--gold); opacity: 0.75; }
- 
+
 /* ── CONTACT ── */
 .contact-section { padding: 8rem 4rem; background: var(--bg); }
 .contact-inner { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.4fr; gap: 6rem; }
@@ -334,13 +346,13 @@ h1 em { font-style: italic; color: var(--gold); }
 .form-success .check-icon { font-size: 2rem; color: var(--gold); margin-bottom: 1rem; }
 .form-success h4 { font-size: 1.3rem; font-weight: 300; color: var(--text); margin-bottom: 0.5rem; }
 .form-success p { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--text3); }
- 
+
 /* ── FOOTER ── */
 footer { border-top: 1px solid var(--border); padding: 3rem 4rem; display: flex; justify-content: space-between; align-items: center; background: var(--bg); }
 .footer-logo { font-size: 1.2rem; font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; text-decoration: none; color: var(--text); }
 .footer-logo span { color: var(--gold); }
 footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; color: var(--text3); text-transform: uppercase; }
- 
+
 /* ── RESPONSIVE ── */
 @media (max-width: 960px) {
   nav { padding: 1.2rem 1.5rem; }
@@ -370,7 +382,7 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
   .floating-bag { right: 1.2rem; bottom: 1.2rem; width: 54px; height: 54px; }
   .bag-panel { right: 1rem; bottom: 5.5rem; width: calc(100vw - 2rem); max-width: 360px; }
 }
- 
+
 /* ── SAMPLE CARD ANIMATION ── */
 @keyframes bottleFloat {
   0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -388,7 +400,7 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
 [data-theme="dark"] .sample-tag { background: rgba(201,168,76,0.12); color: var(--gold); border-color: var(--gold); }
 .samples-grid { grid-template-columns: repeat(3, 1fr); }
 @media (max-width: 960px) { .samples-grid { grid-template-columns: 1fr; } }
- 
+
 /* ── FLOATING BAG ── */
 .floating-bag {
   position: fixed; right: 2rem; bottom: 2rem; z-index: 300;
@@ -410,7 +422,7 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
   border: 2px solid var(--bg);
 }
 .bag-count.hidden { display: none; }
- 
+
 .bag-panel {
   position: fixed; right: 2rem; bottom: 6.5rem; z-index: 300;
   width: 340px; max-height: 60vh; overflow-y: auto;
@@ -425,10 +437,21 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
 }
 .bag-panel-header h4 { font-size: 1.1rem; font-weight: 400; color: var(--text); }
 .bag-panel-close { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text3); }
+.bag-clear-btn {
+  background: none; border: 1px solid var(--border); color: var(--text2);
+  font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 0.3rem 0.7rem; cursor: pointer; transition: all 0.2s;
+}
+.bag-clear-btn:hover { border-color: var(--blush); color: var(--blush); }
+.bag-item-remove {
+  background: none; border: none; color: var(--text3); cursor: pointer;
+  font-size: 0.95rem; line-height: 1; padding: 0 0.2rem; transition: color 0.2s;
+}
+.bag-item-remove:hover { color: var(--blush); }
 .bag-items { padding: 0.5rem 1.4rem; flex: 1; overflow-y: auto; }
 .bag-item {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 0.85rem 0; border-bottom: 1px solid var(--border);
+  gap: 0.5rem; padding: 0.85rem 0; border-bottom: 1px solid var(--border);
   font-family: 'DM Mono', monospace; font-size: 0.7rem;
 }
 .bag-item:last-child { border-bottom: none; }
@@ -439,7 +462,7 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
 .bag-total-row { display: flex; justify-content: space-between; font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--text); margin-bottom: 1rem; letter-spacing: 0.05em; }
 .bag-checkout-btn { width: 100%; padding: 0.85rem; background: var(--accent); color: var(--accent-text); border: none; font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; }
 [data-theme="dark"] .bag-checkout-btn { background: var(--gold); color: var(--ink); }
- 
+
 /* ── GIFT-WRAPPED REWARD ── */
 .circle.reward-idle {
   position: relative; overflow: hidden; border-color: rgba(201,168,76,0.5);
@@ -456,7 +479,7 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
 </style>
 </head>
 <body>
- 
+
 <!-- NAV -->
 <nav id="top">
   <a href="#top" class="logo">Scent<span>Flow</span></a>
@@ -482,7 +505,7 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
     </button>
   </div>
 </nav>
- 
+
 <!-- HERO -->
 <section class="hero">
   <div class="hero-left">
@@ -514,7 +537,7 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
     </div>
   </div>
 </section>
- 
+
 <!-- TRACKS -->
 <section class="tracks-section" id="tracks">
   <div class="tracks-header">
@@ -545,18 +568,20 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
     </div>
   </div>
 </section>
- 
+
 <!-- ACCOUNT MODAL -->
 <div class="modal-overlay" id="accountModal">
   <div class="modal">
     <button class="modal-close" id="modalClose">✕</button>
     <div class="modal-eyebrow">ScentFlow Subscription</div>
     <h2>Your account</h2>
-    <p class="modal-sub">Sign in or create a new account to start your subscription</p>
-    <div class="modal-tabs">
+    <p class="modal-sub" id="modalSubText">Sign in or create a new account to start your subscription</p>
+    <div class="modal-tabs" id="modalTabsRow">
       <button class="modal-tab active" data-tab="signup">Create Account</button>
       <button class="modal-tab" data-tab="login">Sign In</button>
     </div>
+
+    <!-- SIGN UP -->
     <div class="tab-panel active" id="tab-signup">
       <div class="form-row">
         <div class="form-group"><label>First Name</label><input type="text" id="firstName" placeholder="Amara"></div>
@@ -564,7 +589,7 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
       </div>
       <div class="form-group"><label>Email Address</label><input type="email" id="signupEmail" placeholder="amara@example.com"></div>
       <div class="form-group"><label>Phone Number</label><input type="tel" id="signupPhone" placeholder="+234 800 000 0000"></div>
-      <div class="form-group"><label>Password</label><input type="password" id="signupPassword" placeholder="Choose a password"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="signupPassword" placeholder="Choose a password (min 6 characters)"></div>
       <div class="form-group">
         <label>Subscription Plan</label>
         <select id="subPlan">
@@ -573,25 +598,60 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
           <option value="quarterly">Quarterly — ₦24,000 (save ₦1,500)</option>
         </select>
       </div>
+      <p class="auth-error" id="signupError"></p>
       <button class="modal-submit" id="signupSubmit">Create Account &amp; Subscribe</button>
       <p class="modal-note">By creating an account you agree to our Terms &amp; Privacy Policy.</p>
     </div>
+
+    <!-- SIGN IN -->
     <div class="tab-panel" id="tab-login">
       <div class="form-group"><label>Email Address</label><input type="email" id="loginEmail" placeholder="amara@example.com"></div>
       <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="Your password"></div>
+      <p class="auth-error" id="loginError"></p>
       <button class="modal-submit" id="loginSubmit">Sign In</button>
-      <p class="modal-note">Forgot your password? <a href="#" style="color:var(--gold)">Reset it here.</a></p>
+      <p class="modal-note">Forgot your password? <a href="#" id="forgotPasswordLink" style="color:var(--accent)">Reset it here.</a></p>
     </div>
+
+    <!-- FORGOT PASSWORD: enter email -->
+    <div class="tab-panel" id="tab-forgot">
+      <p class="modal-sub" style="margin-bottom:1.5rem;">Enter your account email — we'll send a 6-digit verification code.</p>
+      <div class="form-group"><label>Email Address</label><input type="email" id="forgotEmail" placeholder="amara@example.com"></div>
+      <p class="auth-error" id="forgotError"></p>
+      <button class="modal-submit" id="forgotSubmit">Send Verification Code</button>
+      <p class="modal-note"><a href="#" id="backToLoginLink" style="color:var(--accent)">← Back to sign in</a></p>
+    </div>
+
+    <!-- FORGOT PASSWORD: enter code -->
+    <div class="tab-panel" id="tab-verify">
+      <p class="modal-sub" style="margin-bottom:1.5rem;">A 6-digit code was sent to <strong id="verifyEmailDisplay" style="color:var(--text);"></strong>.</p>
+      <div class="demo-code-box" id="demoCodeBox"></div>
+      <div class="form-group"><label>Verification Code</label><input type="text" id="verifyCode" placeholder="000000" maxlength="6" inputmode="numeric"></div>
+      <p class="auth-error" id="verifyError"></p>
+      <button class="modal-submit" id="verifySubmit">Verify Code</button>
+      <p class="modal-note"><a href="#" id="resendCodeLink" style="color:var(--accent)">Resend code</a></p>
+    </div>
+
+    <!-- FORGOT PASSWORD: new password -->
+    <div class="tab-panel" id="tab-newpass">
+      <p class="modal-sub" style="margin-bottom:1.5rem;">Choose a new password for your account.</p>
+      <div class="form-group"><label>New Password</label><input type="password" id="newPassword" placeholder="Min 6 characters"></div>
+      <div class="form-group"><label>Confirm New Password</label><input type="password" id="confirmPassword" placeholder="Re-enter new password"></div>
+      <p class="auth-error" id="newpassError"></p>
+      <button class="modal-submit" id="newpassSubmit">Reset Password</button>
+    </div>
+
+    <!-- SUCCESS -->
     <div class="tab-panel" id="tab-success">
       <div class="success-msg">
         <div class="check">✦</div>
-        <h3>Welcome to ScentFlow</h3>
-        <p>Your account has been created. Your first delivery is on its way.</p>
+        <h3 id="successTitle">Welcome to ScentFlow</h3>
+        <p id="successMsg">Your account has been created. Your first delivery is on its way.</p>
       </div>
     </div>
   </div>
 </div>
- 
+
+
 <!-- JOURNEY -->
 <section class="progress-section" id="journey">
   <div class="progress-inner">
@@ -604,7 +664,7 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
     <button class="btn-reset-journey" id="resetJourneyBtn">↺ Reset Journey</button>
   </div>
 </section>
- 
+
 <!-- LOGISTICS -->
 <section style="padding:8rem 4rem;background:var(--bg);" id="logistics">
   <div style="max-width:1100px;margin:0 auto;">
@@ -632,20 +692,20 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
     </div>
   </div>
 </section>
- 
+
 <!-- SHOP — COLLECTIONS -->
 <section class="shop-section" id="shop">
   <div class="shop-inner">
     <div class="section-label">Direct Purchase</div>
     <h2>Shop <em>the collection</em></h2>
     <p class="shop-intro">No subscription needed. Buy when you want. Every 5th purchase earns your full bottle.</p>
- 
+
     <div class="collection-tabs">
       <button class="col-tab active" data-col="mist">Mist <span class="tab-count">(3)</span></button>
       <button class="col-tab" data-col="spray">Spray <span class="tab-count">(3)</span></button>
       <button class="col-tab" data-col="perfume">Perfume <span class="tab-count">(3)</span></button>
     </div>
- 
+
         <div class="collection-panel active" id="col-mist">
       <div class="col-header">
         <div class="col-title">Mist Collection</div>
@@ -717,7 +777,7 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
         </div>
       </div>
     </div>
- 
+
     <div class="collection-panel" id="col-spray">
       <div class="col-header">
         <div class="col-title">Spray Collection</div>
@@ -789,7 +849,7 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
         </div>
       </div>
     </div>
- 
+
     <div class="collection-panel" id="col-perfume">
       <div class="col-header">
         <div class="col-title">Perfume Collection</div>
@@ -861,10 +921,10 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
         </div>
       </div>
     </div>
- 
+
   </div>
 </section>
- 
+
 <!-- PRICING -->
 <section class="pricing-section" id="pricing">
   <div class="pricing-inner">
@@ -903,7 +963,7 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
     </div>
   </div>
 </section>
- 
+
 <!-- CEO -->
 <section class="ceo-section" id="ceo">
   <div class="ceo-inner">
@@ -924,7 +984,7 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
     </div>
   </div>
 </section>
- 
+
 <!-- CONTACT -->
 <section class="contact-section" id="contact">
   <div class="contact-inner">
@@ -943,7 +1003,7 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
       <h3>Send us a message</h3>
       <p class="form-note">All fields required</p>
       <div id="contactFormWrap">
-        <form class="contact-form" id="contactForm" onsubmit="submitContact(event)">
+        <form class="contact-form" id="contactForm" onsubmit="submitContact(event)" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
           <div class="form-row">
             <div class="form-group"><label>Full Name</label><input type="text" id="cName" placeholder="Amara Okafor" required></div>
             <div class="form-group"><label>Email</label><input type="email" id="cEmail" placeholder="amara@example.com" required></div>
@@ -971,14 +1031,14 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
     </div>
   </div>
 </section>
- 
+
 <!-- FOOTER -->
 <footer>
   <a href="#top" class="footer-logo">Scent<span>Flow</span></a>
   <p>© 2026 ScentFlow. All rights reserved.</p>
   <p>Crafted in Lagos, Nigeria</p>
 </footer>
- 
+
 <!-- FLOATING BAG -->
 <button class="floating-bag" id="floatingBag" aria-label="View bag">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 7h12l1.5 13h-15L6 7z"/><path d="M9 7a3 3 0 0 1 6 0" /></svg>
@@ -987,7 +1047,10 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
 <div class="bag-panel" id="bagPanel">
   <div class="bag-panel-header">
     <h4>Your Bag</h4>
-    <button class="bag-panel-close" id="bagPanelClose">✕</button>
+    <div style="display:flex;align-items:center;gap:0.8rem;">
+      <button class="bag-clear-btn" id="bagClearBtn" style="display:none;">Clear</button>
+      <button class="bag-panel-close" id="bagPanelClose">✕</button>
+    </div>
   </div>
   <div class="bag-items" id="bagItems">
     <div class="bag-empty">Your bag is empty. Add a sample to get started.</div>
@@ -997,7 +1060,7 @@ footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing:
     <button class="bag-checkout-btn">Checkout</button>
   </div>
 </div>
- 
+
 <script>
 /* DARK MODE */
 const root = document.documentElement;
@@ -1012,16 +1075,18 @@ track.addEventListener('click', () => {
   label.textContent = isDark ? 'Light' : 'Dark';
   localStorage.setItem('sfTheme', isDark ? 'light' : 'dark');
 });
- 
+
 /* HAMBURGER */
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('navMenu');
 hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); navMenu.classList.toggle('open'); });
 navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { hamburger.classList.remove('open'); navMenu.classList.remove('open'); }));
- 
-/* ACCOUNT MODAL */
+
+/* ── ACCOUNT MODAL + AUTH SYSTEM (DEMO — uses browser localStorage) ── */
+/* NOTE: This is a working demo for testing the flow. Accounts only exist in THIS browser.
+   For real customers, this needs a real backend (e.g. Firebase Auth, Supabase). */
 const modal = document.getElementById('accountModal');
-const openModal = () => modal.classList.add('active');
+const openModal = () => { modal.classList.add('active'); showTab('signup'); };
 const closeModal = () => modal.classList.remove('active');
 document.getElementById('subscribeBtn').addEventListener('click', openModal);
 document.getElementById('navGetStarted').addEventListener('click', e => { e.preventDefault(); openModal(); });
@@ -1029,28 +1094,110 @@ document.getElementById('heroGetStarted').addEventListener('click', e => { e.pre
 document.getElementById('pricingSubscribeBtn').addEventListener('click', openModal);
 document.getElementById('modalClose').addEventListener('click', closeModal);
 modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-document.querySelectorAll('.modal-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
-  });
-});
-const showSuccess = () => {
-  document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+
+function getUsers() { return JSON.parse(localStorage.getItem('sfUsers') || '{}'); }
+function saveUsers(users) { localStorage.setItem('sfUsers', JSON.stringify(users)); }
+
+function showTab(name) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('tab-success').classList.add('active');
-};
+  document.getElementById('tab-' + name).classList.add('active');
+  const tabsRow = document.getElementById('modalTabsRow');
+  const subText = document.getElementById('modalSubText');
+  if (name === 'signup' || name === 'login') {
+    tabsRow.style.display = 'flex';
+    document.querySelectorAll('.modal-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+    subText.textContent = 'Sign in or create a new account to start your subscription';
+  } else {
+    tabsRow.style.display = 'none';
+  }
+  ['signupError','loginError','forgotError','verifyError','newpassError'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = ''; });
+}
+
+document.querySelectorAll('.modal-tab').forEach(tab => {
+  tab.addEventListener('click', () => showTab(tab.dataset.tab));
+});
+
+/* SIGN UP */
 document.getElementById('signupSubmit').addEventListener('click', () => {
-  if (!document.getElementById('firstName').value.trim() || !document.getElementById('signupEmail').value.trim()) { alert('Please fill in your name and email.'); return; }
-  showSuccess();
+  const fn = document.getElementById('firstName').value.trim();
+  const ln = document.getElementById('lastName').value.trim();
+  const email = document.getElementById('signupEmail').value.trim().toLowerCase();
+  const phone = document.getElementById('signupPhone').value.trim();
+  const pass = document.getElementById('signupPassword').value;
+  const plan = document.getElementById('subPlan').value;
+  const err = document.getElementById('signupError');
+  if (!fn || !email || !pass) { err.textContent = 'Please fill in your name, email, and password.'; return; }
+  if (pass.length < 6) { err.textContent = 'Password must be at least 6 characters.'; return; }
+  const users = getUsers();
+  if (users[email]) { err.textContent = 'An account with this email already exists. Try signing in instead.'; return; }
+  users[email] = { firstName: fn, lastName: ln, email, phone, password: pass, plan, createdAt: new Date().toISOString(), progress: 0 };
+  saveUsers(users);
+  localStorage.setItem('sfCurrentUser', email);
+  document.getElementById('successTitle').textContent = 'Welcome to ScentFlow, ' + fn + '!';
+  document.getElementById('successMsg').textContent = 'Your account has been created. Your first delivery is on its way.';
+  showTab('success');
 });
+
+/* SIGN IN */
 document.getElementById('loginSubmit').addEventListener('click', () => {
-  if (!document.getElementById('loginEmail').value.trim()) { alert('Please enter your email address.'); return; }
-  showSuccess();
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const pass = document.getElementById('loginPassword').value;
+  const err = document.getElementById('loginError');
+  if (!email || !pass) { err.textContent = 'Please enter your email and password.'; return; }
+  const users = getUsers();
+  const user = users[email];
+  if (!user || user.password !== pass) { err.textContent = 'Incorrect email or password.'; return; }
+  localStorage.setItem('sfCurrentUser', email);
+  document.getElementById('successTitle').textContent = 'Welcome back, ' + user.firstName + '!';
+  document.getElementById('successMsg').textContent = 'You are now signed in to your ScentFlow account.';
+  showTab('success');
 });
- 
+
+/* FORGOT PASSWORD FLOW */
+let resetCode = null;
+let resetEmail = null;
+
+document.getElementById('forgotPasswordLink').addEventListener('click', e => { e.preventDefault(); showTab('forgot'); });
+document.getElementById('backToLoginLink').addEventListener('click', e => { e.preventDefault(); showTab('login'); });
+
+function sendResetCode() {
+  const email = document.getElementById('forgotEmail').value.trim().toLowerCase();
+  const err = document.getElementById('forgotError');
+  const users = getUsers();
+  if (!email) { err.textContent = 'Please enter your email address.'; return; }
+  if (!users[email]) { err.textContent = 'No account found with this email.'; return; }
+  resetEmail = email;
+  resetCode = String(Math.floor(100000 + Math.random() * 900000));
+  document.getElementById('verifyEmailDisplay').textContent = email;
+  document.getElementById('demoCodeBox').innerHTML = '⚠️ DEMO MODE — no real email is sent.<br>Your verification code is: <strong>' + resetCode + '</strong>';
+  document.getElementById('verifyCode').value = '';
+  showTab('verify');
+}
+document.getElementById('forgotSubmit').addEventListener('click', sendResetCode);
+document.getElementById('resendCodeLink').addEventListener('click', e => { e.preventDefault(); sendResetCode(); });
+
+document.getElementById('verifySubmit').addEventListener('click', () => {
+  const code = document.getElementById('verifyCode').value.trim();
+  const err = document.getElementById('verifyError');
+  if (code !== resetCode) { err.textContent = 'Incorrect code. Please try again.'; return; }
+  showTab('newpass');
+});
+
+document.getElementById('newpassSubmit').addEventListener('click', () => {
+  const p1 = document.getElementById('newPassword').value;
+  const p2 = document.getElementById('confirmPassword').value;
+  const err = document.getElementById('newpassError');
+  if (p1.length < 6) { err.textContent = 'Password must be at least 6 characters.'; return; }
+  if (p1 !== p2) { err.textContent = 'Passwords do not match.'; return; }
+  const users = getUsers();
+  users[resetEmail].password = p1;
+  saveUsers(users);
+  document.getElementById('successTitle').textContent = 'Password reset!';
+  document.getElementById('successMsg').textContent = 'Your password has been updated. You can now sign in.';
+  showTab('success');
+});
+
+
 /* COLLECTION TABS */
 document.querySelectorAll('.col-tab').forEach(tab => {
   tab.addEventListener('click', () => {
@@ -1060,7 +1207,7 @@ document.querySelectorAll('.col-tab').forEach(tab => {
     document.getElementById('col-' + tab.dataset.col).classList.add('active');
   });
 });
- 
+
 /* JOURNEY */
 let journeyFilled = 0;
 const journeyTotal = 5;
@@ -1100,7 +1247,7 @@ function renderJourney() {
 }
 document.getElementById('resetJourneyBtn').addEventListener('click', () => { journeyFilled = 0; renderJourney(); });
 renderJourney();
- 
+
 /* BAG STATE */
 let bagItems = [];
 const bagCountEl = document.getElementById('bagCount');
@@ -1108,26 +1255,35 @@ const bagItemsEl = document.getElementById('bagItems');
 const bagFooterEl = document.getElementById('bagFooter');
 const bagTotalEl = document.getElementById('bagTotal');
 const bagPanel = document.getElementById('bagPanel');
- 
+const bagClearBtn = document.getElementById('bagClearBtn');
+
 function renderBag() {
   bagCountEl.textContent = bagItems.length;
   bagCountEl.classList.toggle('hidden', bagItems.length === 0);
+  bagClearBtn.style.display = bagItems.length === 0 ? 'none' : 'inline-block';
   if (bagItems.length === 0) {
     bagItemsEl.innerHTML = '<div class="bag-empty">Your bag is empty. Add a sample to get started.</div>';
     bagFooterEl.style.display = 'none';
     return;
   }
-  bagItemsEl.innerHTML = bagItems.map(item =>
-    `<div class="bag-item"><span class="bag-item-name">${item.name}</span><span class="bag-item-price">₦${item.price.toLocaleString()}</span></div>`
+  bagItemsEl.innerHTML = bagItems.map((item, idx) =>
+    `<div class="bag-item"><span class="bag-item-name">${item.name}</span><span class="bag-item-price">₦${item.price.toLocaleString()}</span><button class="bag-item-remove" data-idx="${idx}" aria-label="Remove">✕</button></div>`
   ).join('');
+  bagItemsEl.querySelectorAll('.bag-item-remove').forEach(btn => {
+    btn.addEventListener('click', () => {
+      bagItems.splice(parseInt(btn.dataset.idx, 10), 1);
+      renderBag();
+    });
+  });
   const total = bagItems.reduce((sum, i) => sum + i.price, 0);
   bagTotalEl.textContent = '₦' + total.toLocaleString();
   bagFooterEl.style.display = 'block';
 }
- 
+
+bagClearBtn.addEventListener('click', () => { bagItems = []; renderBag(); });
 document.getElementById('floatingBag').addEventListener('click', () => bagPanel.classList.toggle('open'));
 document.getElementById('bagPanelClose').addEventListener('click', () => bagPanel.classList.remove('open'));
- 
+
 document.querySelectorAll('.btn-add').forEach(btn => {
   btn.addEventListener('click', function() {
     const name = this.dataset.product;
@@ -1140,13 +1296,42 @@ document.querySelectorAll('.btn-add').forEach(btn => {
   });
 });
 renderBag();
- 
-/* CONTACT */
+
+/* ── CONTACT FORM ──
+   1. Saves message to localStorage so it shows up in the Admin Dashboard.
+   2. Submits to Formspree so it also lands in your email inbox.
+   ⚠️ SETUP NEEDED: replace YOUR_FORM_ID in the <form action="..."> above with your
+   real Formspree form ID. Get one free at https://formspree.io — takes 2 minutes,
+   no backend needed. Until you do this, step 2 will silently fail but step 1
+   (saving to the dashboard) still works fine. */
+function getMessages() { return JSON.parse(localStorage.getItem('sfMessages') || '[]'); }
+function saveMessages(msgs) { localStorage.setItem('sfMessages', JSON.stringify(msgs)); }
+
 function submitContact(e) {
   e.preventDefault();
-  document.getElementById('contactForm').style.display = 'none';
+  const form = document.getElementById('contactForm');
+  const name = document.getElementById('cName').value.trim();
+  const email = document.getElementById('cEmail').value.trim();
+  const subject = document.getElementById('cSubject').value;
+  const message = document.getElementById('cMessage').value.trim();
+
+  // 1. Save to dashboard
+  const messages = getMessages();
+  messages.unshift({ id: Date.now(), name, email, subject, message, date: new Date().toISOString(), read: false });
+  saveMessages(messages);
+
+  // 2. Send real email via Formspree (fails silently if YOUR_FORM_ID hasn't been replaced)
+  const formData = new FormData(form);
+  fetch(form.action, {
+    method: 'POST',
+    body: formData,
+    headers: { 'Accept': 'application/json' }
+  }).catch(() => { /* Formspree not configured yet — message is still saved to dashboard above */ });
+
+  form.style.display = 'none';
   document.getElementById('formSuccess').style.display = 'block';
 }
+
 </script>
 </body>
 </html>

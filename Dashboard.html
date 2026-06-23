@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScentFlow — Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1208; --cream: #f5f0e8; --gold: #c9a84c; --gold-light: #e8d5a3;
+  --mist: #5a7a5a; --blush: #c07060; --deep: #2d1f0e; --sand: #e0d4bc;
+  --bg: #f5f0e8; --bg2: #e0d4bc; --bg3: #2d1f0e;
+  --text: #1a1208; --text2: rgba(26,18,8,0.7); --text3: rgba(26,18,8,0.5);
+  --border: rgba(26,18,8,0.12); --card-bg: #fff;
+  --accent: #1d4ed8; --accent-light: #3b6fe0; --accent-pale: #eaf0fd; --accent-text: #fff;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background: var(--bg); color: var(--text); font-family: 'Cormorant Garamond', serif; min-height: 100vh; }
+
+/* ── LOGIN GATE ── */
+.gate-screen {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: var(--bg3); padding: 1.5rem;
+}
+.gate-box {
+  background: var(--bg); max-width: 420px; width: 100%; padding: 3rem;
+  border: 1px solid rgba(201,168,76,0.2);
+}
+.gate-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; }
+.gate-box h1 { font-size: 1.9rem; font-weight: 300; margin-bottom: 0.4rem; }
+.gate-box .gate-sub { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--text3); margin-bottom: 2rem; }
+.gate-form .form-group { margin-bottom: 1.2rem; }
+.gate-form label { display: block; font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text2); margin-bottom: 0.45rem; }
+.gate-form input {
+  width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); background: #fff;
+  font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--text); outline: none;
+  transition: border-color 0.2s;
+}
+.gate-form input:focus { border-color: var(--accent); }
+.gate-error { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--blush); margin: -0.4rem 0 0.8rem; min-height: 1px; }
+.gate-error:empty { display: none; }
+.gate-submit {
+  width: 100%; padding: 1rem; background: var(--accent); color: var(--accent-text);
+  border: none; font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em;
+  text-transform: uppercase; cursor: pointer; transition: background 0.25s; margin-top: 0.3rem;
+}
+.gate-submit:hover { background: var(--accent-light); }
+.gate-note {
+  margin-top: 1.5rem; padding: 1rem; background: var(--accent-pale); border: 1px dashed var(--accent);
+  font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--text2); line-height: 1.6;
+}
+.gate-note strong { color: var(--accent); }
+.gate-back { display: inline-block; margin-top: 1.5rem; font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; color: var(--text3); text-decoration: none; }
+.gate-back:hover { color: var(--accent); }
+
+/* ── DASHBOARD APP ── */
+.dash-app { display: none; }
+.dash-app.active { display: block; }
+
+.dash-topnav {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.4rem 3rem; border-bottom: 1px solid var(--border);
+  background: var(--bg3); color: var(--cream);
+}
+.dash-topnav .logo { font-size: 1.3rem; font-weight: 300; letter-spacing: 0.25em; text-transform: uppercase; }
+.dash-topnav .logo span { color: var(--gold); }
+.dash-topnav-right { display: flex; align-items: center; gap: 1.5rem; }
+.dash-admin-tag { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; color: rgba(240,232,216,0.5); text-transform: uppercase; }
+.logout-btn {
+  background: none; border: 1px solid rgba(240,232,216,0.25); color: rgba(240,232,216,0.7);
+  font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.5rem 1.1rem; cursor: pointer; transition: all 0.2s;
+}
+.logout-btn:hover { border-color: var(--gold); color: var(--gold); }
+.back-to-site { color: var(--gold); font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-decoration: none; text-transform: uppercase; }
+
+.dash-layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 70px); }
+.dash-sidebar { background: var(--bg2); border-right: 1px solid var(--border); padding: 2rem 0; }
+.sidebar-link {
+  display: flex; align-items: center; gap: 0.8rem; padding: 0.9rem 1.6rem;
+  font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text2); cursor: pointer; transition: all 0.2s;
+  border-left: 3px solid transparent; position: relative;
+}
+.sidebar-link:hover { background: rgba(29,78,216,0.06); color: var(--text); }
+.sidebar-link.active { border-left-color: var(--accent); color: var(--accent); background: var(--accent-pale); }
+.sidebar-badge {
+  background: var(--blush); color: #fff; font-size: 0.6rem; font-weight: 600;
+  width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  margin-left: auto;
+}
+.sidebar-badge.hidden { display: none; }
+
+.dash-main { padding: 2.5rem 3rem; }
+.dash-view { display: none; }
+.dash-view.active { display: block; }
+.view-header { margin-bottom: 2rem; }
+.view-header h2 { font-size: 1.8rem; font-weight: 300; margin-bottom: 0.3rem; }
+.view-header p { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--text3); }
+
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2.5rem; }
+.stat-box { background: var(--card-bg); border: 1px solid var(--border); padding: 1.5rem; }
+.stat-num { font-size: 2.2rem; font-weight: 300; color: var(--accent); margin-bottom: 0.3rem; }
+.stat-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); }
+
+.data-table { width: 100%; border-collapse: collapse; background: var(--card-bg); border: 1px solid var(--border); }
+.data-table th {
+  text-align: left; padding: 0.9rem 1.2rem; font-family: 'DM Mono', monospace; font-size: 0.6rem;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.data-table td { padding: 1rem 1.2rem; border-bottom: 1px solid var(--border); font-size: 0.95rem; vertical-align: top; }
+.data-table tr:last-child td { border-bottom: none; }
+.empty-state { padding: 3rem; text-align: center; color: var(--text3); font-family: 'DM Mono', monospace; font-size: 0.75rem; background: var(--card-bg); border: 1px solid var(--border); }
+
+.mini-progress { display: flex; gap: 3px; }
+.mini-dot { width: 11px; height: 11px; border-radius: 50%; border: 1px solid var(--border); }
+.mini-dot.done { background: var(--accent); border-color: var(--accent); }
+
+.msg-card { background: var(--card-bg); border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 1rem; position: relative; }
+.msg-card.unread { border-left: 3px solid var(--accent); }
+.msg-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem; }
+.msg-from { font-size: 1.1rem; font-weight: 400; }
+.msg-email { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--text3); }
+.msg-date { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--text3); white-space: nowrap; }
+.msg-subject-tag {
+  display: inline-block; background: var(--accent-pale); color: var(--accent);
+  font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.25rem 0.6rem; margin-bottom: 0.8rem;
+}
+.msg-body { font-size: 0.95rem; color: var(--text2); line-height: 1.6; }
+.msg-actions { margin-top: 1rem; display: flex; gap: 0.8rem; }
+.msg-action-btn {
+  background: none; border: 1px solid var(--border); color: var(--text2);
+  font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.4rem 0.9rem; cursor: pointer; transition: all 0.2s;
+}
+.msg-action-btn:hover { border-color: var(--accent); color: var(--accent); }
+.msg-action-btn.danger:hover { border-color: var(--blush); color: var(--blush); }
+
+@media (max-width: 800px) {
+  .dash-layout { grid-template-columns: 1fr; }
+  .dash-sidebar { display: flex; overflow-x: auto; padding: 0.8rem; border-right: none; border-bottom: 1px solid var(--border); }
+  .sidebar-link { border-left: none; border-bottom: 3px solid transparent; white-space: nowrap; }
+  .sidebar-link.active { border-left-color: transparent; border-bottom-color: var(--accent); }
+  .dash-main { padding: 1.5rem; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .dash-topnav { padding: 1rem 1.2rem; }
+  .data-table { display: block; overflow-x: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── ADMIN LOGIN GATE ── -->
+<div class="gate-screen" id="gateScreen">
+  <div class="gate-box">
+    <div class="gate-eyebrow">ScentFlow Admin</div>
+    <h1>Dashboard Access</h1>
+    <p class="gate-sub">Authorized personnel only — sign in to continue</p>
+    <div class="gate-form">
+      <div class="form-group">
+        <label>Admin Username</label>
+        <input type="text" id="adminUser" placeholder="admin" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>Admin Password</label>
+        <input type="password" id="adminPass" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <p class="gate-error" id="gateError"></p>
+      <button class="gate-submit" id="gateSubmit">Sign In to Dashboard</button>
+    </div>
+    <div class="gate-note">
+      ⚠️ <strong>Demo mode:</strong> default admin login is <strong>admin</strong> / <strong>scentflow2026</strong>.
+      This is a browser-only demo gate — for real production use, admin auth should live on a
+      real backend (e.g. Firebase Auth) so credentials aren't stored in the page source.
+    </div>
+    <a href="scentflow.html" class="gate-back">← Back to ScentFlow site</a>
+  </div>
+</div>
+
+<!-- ── DASHBOARD APP ── -->
+<div class="dash-app" id="dashApp">
+  <nav class="dash-topnav">
+    <div class="logo">Scent<span>Flow</span> · Admin</div>
+    <div class="dash-topnav-right">
+      <span class="dash-admin-tag">Signed in as Admin</span>
+      <a href="index.html" class="back-to-site">View Site →</a>
+      <button class="logout-btn" id="logoutBtn">Log Out</button>
+    </div>
+  </nav>
+
+  <div class="dash-layout">
+    <aside class="dash-sidebar">
+      <div class="sidebar-link active" data-view="overview">Overview</div>
+      <div class="sidebar-link" data-view="customers">Customers</div>
+      <div class="sidebar-link" data-view="orders">Bag / Orders</div>
+      <div class="sidebar-link" data-view="messages">
+        Messages
+        <span class="sidebar-badge hidden" id="msgBadge">0</span>
+      </div>
+    </aside>
+
+    <main class="dash-main">
+
+      <!-- OVERVIEW -->
+      <div class="dash-view active" id="view-overview">
+        <div class="view-header">
+          <h2>Overview</h2>
+          <p>A snapshot of customers, orders, and inbox activity</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-box"><div class="stat-num" id="statCustomers">0</div><div class="stat-label">Registered Customers</div></div>
+          <div class="stat-box"><div class="stat-num" id="statRewards">0</div><div class="stat-label">Rewards Earned</div></div>
+          <div class="stat-box"><div class="stat-num" id="statBagItems">0</div><div class="stat-label">Items in Live Bag</div></div>
+          <div class="stat-box"><div class="stat-num" id="statMessages">0</div><div class="stat-label">Unread Messages</div></div>
+        </div>
+        <div id="overviewEmptyNote" class="gate-note" style="margin-top:0;">
+          ⚠️ <strong>Demo data note:</strong> Customers, orders, and messages shown here are stored in
+          this browser's local storage. They will only appear if created from this same browser
+          (e.g. by signing up or sending a message on the ScentFlow site in this browser/device).
+          For a live multi-device store, this dashboard needs to read from a real database.
+        </div>
+      </div>
+
+      <!-- CUSTOMERS -->
+      <div class="dash-view" id="view-customers">
+        <div class="view-header">
+          <h2>Customers</h2>
+          <p>Everyone who has created a ScentFlow account, and their journey progress</p>
+        </div>
+        <div id="customersTableWrap"></div>
+      </div>
+
+      <!-- ORDERS / BAG -->
+      <div class="dash-view" id="view-orders">
+        <div class="view-header">
+          <h2>Bag / Orders</h2>
+          <p>Items currently sitting in the shopper's live bag on this browser</p>
+        </div>
+        <div id="ordersTableWrap"></div>
+      </div>
+
+      <!-- MESSAGES -->
+      <div class="dash-view" id="view-messages">
+        <div class="view-header">
+          <h2>Messages</h2>
+          <p>Contact form submissions from the ScentFlow site</p>
+        </div>
+        <div id="messagesWrap"></div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+/* ── ADMIN AUTH GATE ──
+   ⚠️ DEMO ONLY: credentials are hardcoded client-side, which is NOT secure for production.
+   Anyone who views this page's source can see the password. For a real launch, move admin
+   auth to a real backend with hashed passwords (e.g. Firebase Auth with a custom claim,
+   or Supabase Auth + a row-level security policy restricting the dashboard route to admins). */
+const ADMIN_USERNAME = 'admin';
+const ADMIN_PASSWORD = 'scentflow2026';
+const SESSION_KEY = 'sfAdminSession';
+
+function checkSession() {
+  if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+    document.getElementById('gateScreen').style.display = 'none';
+    document.getElementById('dashApp').classList.add('active');
+    loadDashboardData();
+  }
+}
+
+document.getElementById('gateSubmit').addEventListener('click', () => {
+  const u = document.getElementById('adminUser').value.trim();
+  const p = document.getElementById('adminPass').value;
+  const err = document.getElementById('gateError');
+  if (u === ADMIN_USERNAME && p === ADMIN_PASSWORD) {
+    sessionStorage.setItem(SESSION_KEY, 'true');
+    document.getElementById('gateScreen').style.display = 'none';
+    document.getElementById('dashApp').classList.add('active');
+    loadDashboardData();
+  } else {
+    err.textContent = 'Incorrect username or password.';
+  }
+});
+document.getElementById('adminPass').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('gateSubmit').click(); });
+
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  sessionStorage.removeItem(SESSION_KEY);
+  document.getElementById('dashApp').classList.remove('active');
+  document.getElementById('gateScreen').style.display = 'flex';
+  document.getElementById('adminUser').value = '';
+  document.getElementById('adminPass').value = '';
+});
+
+/* ── SIDEBAR NAV ── */
+document.querySelectorAll('.sidebar-link').forEach(link => {
+  link.addEventListener('click', () => {
+    document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+    document.querySelectorAll('.dash-view').forEach(v => v.classList.remove('active'));
+    link.classList.add('active');
+    document.getElementById('view-' + link.dataset.view).classList.add('active');
+  });
+});
+
+/* ── DATA LOADERS (reads the same localStorage keys the main site writes to) ── */
+function getUsers() { return JSON.parse(localStorage.getItem('sfUsers') || '{}'); }
+function getMessages() { return JSON.parse(localStorage.getItem('sfMessages') || '[]'); }
+function saveMessages(msgs) { localStorage.setItem('sfMessages', JSON.stringify(msgs)); }
+
+function loadDashboardData() {
+  const users = getUsers();
+  const userList = Object.values(users);
+  const messages = getMessages();
+  const unread = messages.filter(m => !m.read).length;
+
+  // Stats
+  document.getElementById('statCustomers').textContent = userList.length;
+  document.getElementById('statRewards').textContent = userList.filter(u => (u.progress || 0) >= 5).length;
+  document.getElementById('statMessages').textContent = unread;
+
+  // Bag (read from sessionStorage isn't shared across tabs by design; we just check if any bag data was left in localStorage by the site)
+  document.getElementById('statBagItems').textContent = '—';
+
+  // Badge
+  const badge = document.getElementById('msgBadge');
+  badge.textContent = unread;
+  badge.classList.toggle('hidden', unread === 0);
+
+  renderCustomers(userList);
+  renderMessages(messages);
+  renderOrdersNote();
+}
+
+function renderCustomers(userList) {
+  const wrap = document.getElementById('customersTableWrap');
+  if (userList.length === 0) {
+    wrap.innerHTML = '<div class="empty-state">No customers yet. Accounts created on the ScentFlow site (in this browser) will appear here.</div>';
+    return;
+  }
+  const rows = userList.map(u => {
+    const progress = u.progress || 0;
+    const dots = Array.from({length: 5}, (_, i) => `<div class="mini-dot${i < progress ? ' done' : ''}"></div>`).join('');
+    return `<tr>
+      <td><strong>${u.firstName} ${u.lastName || ''}</strong></td>
+      <td>${u.email}</td>
+      <td>${u.phone || '—'}</td>
+      <td>${u.plan ? (u.plan === 'monthly' ? 'Monthly' : 'Quarterly') : 'Direct'}</td>
+      <td><div class="mini-progress">${dots}</div></td>
+      <td>${progress >= 5 ? '🏆 Earned' : progress + ' / 5'}</td>
+    </tr>`;
+  }).join('');
+  wrap.innerHTML = `<table class="data-table">
+    <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Track</th><th>Progress</th><th>Status</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+function renderOrdersNote() {
+  document.getElementById('ordersTableWrap').innerHTML = `<div class="empty-state">
+    The floating bag on the main site is stored per-browser-session and clears on reload, so it isn't
+    persisted here yet. To track real orders here, the "Add to Bag" and "Checkout" actions need to write
+    to a shared orders database (the same one used for real backend auth).
+  </div>`;
+}
+
+function renderMessages(messages) {
+  const wrap = document.getElementById('messagesWrap');
+  if (messages.length === 0) {
+    wrap.innerHTML = '<div class="empty-state">No messages yet. Submissions from the Contact form on the ScentFlow site will appear here.</div>';
+    return;
+  }
+  wrap.innerHTML = messages.map(m => `
+    <div class="msg-card${m.read ? '' : ' unread'}" data-id="${m.id}">
+      <div class="msg-card-top">
+        <div>
+          <div class="msg-from">${m.name}</div>
+          <div class="msg-email">${m.email}</div>
+        </div>
+        <div class="msg-date">${new Date(m.date).toLocaleString()}</div>
+      </div>
+      <div class="msg-subject-tag">${m.subject || 'No subject'}</div>
+      <div class="msg-body">${m.message}</div>
+      <div class="msg-actions">
+        ${m.read ? '' : `<button class="msg-action-btn" data-action="read" data-id="${m.id}">Mark as read</button>`}
+        <button class="msg-action-btn danger" data-action="delete" data-id="${m.id}">Delete</button>
+      </div>
+    </div>
+  `).join('');
+
+  wrap.querySelectorAll('[data-action="read"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = Number(btn.dataset.id);
+      const msgs = getMessages();
+      const msg = msgs.find(m => m.id === id);
+      if (msg) msg.read = true;
+      saveMessages(msgs);
+      loadDashboardData();
+    });
+  });
+  wrap.querySelectorAll('[data-action="delete"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = Number(btn.dataset.id);
+      let msgs = getMessages();
+      msgs = msgs.filter(m => m.id !== id);
+      saveMessages(msgs);
+      loadDashboardData();
+    });
+  });
+}
+
+checkSession();
+</script>
+</body>
+</html>
