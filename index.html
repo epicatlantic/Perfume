@@ -1,213 +1,1152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LADE's Scent | World of frangrance</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScentFlow — Tailored Fragrance</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+/* ── THEME TOKENS ── */
+:root {
+  --ink: #1a1208;
+  --cream: #f5f0e8;
+  --gold: #c9a84c;
+  --gold-light: #e8d5a3;
+  --mist: #5a7a5a;
+  --blush: #c07060;
+  --deep: #2d1f0e;
+  --sand: #e0d4bc;
+  --bg: #f5f0e8;
+  --bg2: #e0d4bc;
+  --bg3: #2d1f0e;
+  --text: #1a1208;
+  --text2: rgba(26,18,8,0.7);
+  --text3: rgba(26,18,8,0.5);
+  --border: rgba(26,18,8,0.12);
+  --card-bg: #fff;
+  --nav-bg: rgba(245,240,232,0.96);
+  --input-bg: #fff;
+  /* accent: white & blue for interactive UI in light mode; gold stays reserved for luxury touches */
+  --accent: #1d4ed8;
+  --accent-light: #3b6fe0;
+  --accent-pale: #eaf0fd;
+  --accent-text: #ffffff;
+}
+[data-theme="dark"] {
+  --accent: #c9a84c;
+  --accent-light: #e8d5a3;
+  --accent-pale: rgba(201,168,76,0.12);
+  --accent-text: #1a1208;
+}
+[data-theme="dark"] {
+  --bg: #120e08;
+  --bg2: #1e1508;
+  --bg3: #0a0704;
+  --text: #f0e8d8;
+  --text2: rgba(240,232,216,0.75);
+  --text3: rgba(240,232,216,0.45);
+  --border: rgba(240,232,216,0.12);
+  --card-bg: #1e1508;
+  --nav-bg: rgba(18,14,8,0.97);
+  --sand: #2a2010;
+  --cream: #f0e8d8;
+  --input-bg: #2a2010;
+  --deep: #0a0704;
+}
+ 
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+body { background: var(--bg); color: var(--text); font-family: 'Cormorant Garamond', serif; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
+ 
+/* ── NAV ── */
+nav {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.4rem 4rem;
+  border-bottom: 1px solid rgba(201,168,76,0.25);
+  position: sticky; top: 0;
+  background: var(--nav-bg);
+  backdrop-filter: blur(8px); z-index: 200;
+  gap: 1.5rem;
+}
+.logo { font-size: 1.5rem; font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text); text-decoration: none; flex-shrink: 0; }
+.logo span { color: var(--gold); }
+nav ul { list-style: none; display: flex; gap: 2rem; flex-wrap: wrap; }
+nav ul li a {
+  font-family: 'DM Mono', monospace; font-size: 0.68rem;
+  text-decoration: none; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--text); opacity: 0.7; transition: opacity 0.2s, color 0.2s;
+}
+nav ul li a:hover { opacity: 1; color: var(--gold); }
+.nav-cta { background: var(--accent) !important; color: var(--accent-text) !important; padding: 0.55rem 1.2rem; opacity: 1 !important; }
+[data-theme="dark"] .nav-cta { background: var(--gold) !important; color: var(--ink) !important; }
+.nav-cta:hover { background: var(--accent-light) !important; color: var(--accent-text) !important; }
+.nav-dashboard { border: 1px solid var(--accent); color: var(--accent) !important; padding: 0.55rem 1.2rem; opacity: 1 !important; }
+.nav-dashboard:hover { background: var(--accent) !important; color: var(--accent-text) !important; }
+.nav-right { display: flex; align-items: center; gap: 1rem; flex-shrink: 0; }
+ 
+/* DARK MODE TOGGLE */
+.theme-toggle { display: flex; align-items: center; gap: 0.5rem; }
+.theme-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); white-space: nowrap; }
+.toggle-track {
+  width: 40px; height: 22px; border-radius: 11px;
+  background: var(--accent-pale); border: 1px solid var(--accent);
+  position: relative; cursor: pointer; transition: background 0.3s;
+  flex-shrink: 0;
+}
+.toggle-track.on { background: var(--accent); border-color: var(--accent); }
+.toggle-thumb {
+  position: absolute; top: 3px; left: 3px;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--accent); transition: transform 0.3s, background 0.3s;
+}
+[data-theme="light"] .toggle-thumb { background: var(--accent); }
+.toggle-track.on .toggle-thumb { transform: translateX(18px); background: #fff; }
+[data-theme="dark"] .toggle-track.on .toggle-thumb { background: var(--ink); }
+ 
+/* HAMBURGER */
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; flex-shrink: 0; }
+.hamburger span { display: block; width: 22px; height: 1.5px; background: var(--text); transition: all 0.3s; }
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+ 
+/* ── HERO ── */
+.hero { display: grid; grid-template-columns: 1fr 1fr; min-height: 88vh; }
+.hero-left { padding: 6rem 4rem 4rem; display: flex; flex-direction: column; justify-content: center; position: relative; }
+.hero-left::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 20% 60%, rgba(201,168,76,0.07) 0%, transparent 60%); pointer-events: none; }
+.eyebrow { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; }
+.eyebrow::before { content: ''; display: inline-block; width: 40px; height: 1px; background: var(--gold); }
+h1 { font-size: clamp(2.8rem, 5vw, 5rem); font-weight: 300; line-height: 1.05; margin-bottom: 1.8rem; color: var(--text); }
+h1 em { font-style: italic; color: var(--gold); }
+.hero-desc { font-size: 1.1rem; font-weight: 300; line-height: 1.8; color: var(--text2); max-width: 420px; margin-bottom: 3rem; }
+.hero-actions { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+.btn-primary { background: var(--accent); color: var(--accent-text); padding: 1rem 2.5rem; font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: all 0.25s; display: inline-block; }
+.btn-primary:hover { background: var(--accent-light); color: var(--accent-text); }
+[data-theme="dark"] .btn-primary { background: var(--gold); color: var(--ink); }
+[data-theme="dark"] .btn-primary:hover { background: var(--cream); color: var(--ink); }
+.btn-ghost { color: var(--accent); font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; opacity: 0.85; transition: opacity 0.2s; display: flex; align-items: center; gap: 0.5rem; }
+[data-theme="dark"] .btn-ghost { color: var(--text); opacity: 0.6; }
+.btn-ghost:hover { opacity: 1; }
+.hero-right { background: var(--bg3); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.hero-right::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 40%, rgba(201,168,76,0.2) 0%, transparent 50%), radial-gradient(ellipse at 70% 70%, rgba(90,122,90,0.15) 0%, transparent 45%); }
+.bottle-visual { position: relative; z-index: 2; text-align: center; }
+.bottle-svg { width: 180px; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.5)); animation: floatBottle 6s ease-in-out infinite; }
+@keyframes floatBottle { 0%,100%{transform:translateY(0px) rotate(-2deg)} 50%{transform:translateY(-18px) rotate(2deg)} }
+.hero-tagline { color: rgba(240,232,216,0.5); font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 2rem; }
+ 
+/* ── SECTION LABEL ── */
+.section-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+ 
+/* ── TRACKS ── */
+.tracks-section { padding: 8rem 4rem; background: var(--bg); }
+.tracks-header { text-align: center; margin-bottom: 5rem; }
+.tracks-header h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; color: var(--text); }
+.tracks-header h2 em { font-style: italic; color: var(--gold); }
+.tracks-header p { margin-top: 1rem; font-size: 1.1rem; color: var(--text2); font-weight: 300; }
+.tracks-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; max-width: 1100px; margin: 0 auto; }
+.track-card { padding: 4rem; position: relative; overflow: hidden; }
+.track-card.subscription { background: var(--bg3); color: var(--cream); }
+.track-card.direct { background: var(--sand); color: var(--text); }
+.track-card::before { content: ''; position: absolute; top: -80px; right: -80px; width: 280px; height: 280px; border-radius: 50%; border: 1px solid; opacity: 0.1; }
+.track-card.subscription::before { border-color: var(--gold); }
+.track-card.direct::before { border-color: var(--ink); }
+.track-number { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; opacity: 0.45; margin-bottom: 2rem; }
+.track-title { font-size: 2rem; font-weight: 300; margin-bottom: 0.5rem; }
+.track-subtitle { font-size: 0.85rem; font-family: 'DM Mono', monospace; letter-spacing: 0.1em; margin-bottom: 2.5rem; }
+.track-card.subscription .track-subtitle { color: var(--gold); }
+.track-card.direct .track-subtitle { color: var(--mist); }
+.track-feature { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid; }
+.track-card.subscription .track-feature { border-color: rgba(240,232,216,0.15); }
+.track-card.direct .track-feature { border-color: var(--border); }
+.track-feature:last-of-type { border-bottom: none; margin-bottom: 2rem; }
+.track-feature-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; opacity: 0.55; margin-bottom: 0.4rem; }
+.track-feature-value { font-size: 1rem; font-weight: 300; line-height: 1.6; }
+.track-card.subscription .track-feature-value { color: rgba(240,232,216,0.9); }
+.track-cta { display: block; text-align: center; padding: 0.9rem 2rem; font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: all 0.25s; border: none; width: 100%; }
+.track-card.subscription .track-cta { background: var(--gold); color: var(--ink); }
+.track-card.subscription .track-cta:hover { background: var(--cream); }
+.track-card.direct .track-cta { background: var(--ink); color: var(--cream); }
+.track-card.direct .track-cta:hover { background: var(--gold); color: var(--ink); }
+ 
+/* ── MODAL ── */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(10,7,4,0.82); z-index: 500; align-items: center; justify-content: center; padding: 1.5rem; }
+.modal-overlay.active { display: flex; }
+.modal { background: var(--bg); max-width: 480px; width: 100%; padding: 3rem; position: relative; animation: modalIn 0.25s ease; border: 1px solid var(--border); }
+@keyframes modalIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+.modal-close { position: absolute; top: 1.2rem; right: 1.5rem; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text3); line-height: 1; transition: color 0.2s; }
+.modal-close:hover { color: var(--text); }
+.modal-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+.modal h2 { font-size: 2rem; font-weight: 300; margin-bottom: 0.4rem; color: var(--text); }
+.modal-sub { font-family: 'DM Mono', monospace; font-size: 0.63rem; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 2rem; }
+.modal-tabs { display: flex; margin-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.modal-tab { background: none; border: none; border-bottom: 2px solid transparent; padding: 0.6rem 1.5rem; font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; color: var(--text3); transition: all 0.2s; margin-bottom: -1px; }
+.modal-tab.active { color: var(--text); border-bottom-color: var(--accent); }
+.form-group { margin-bottom: 1.2rem; }
+.form-group label { display: block; font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text2); margin-bottom: 0.45rem; }
+.form-group input, .form-group select { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); background: var(--input-bg); font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--text); outline: none; transition: border-color 0.2s; appearance: none; }
+.form-group input:focus, .form-group select:focus { border-color: var(--gold); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.modal-submit { width: 100%; padding: 1rem; background: var(--accent); color: var(--accent-text); border: none; font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: background 0.25s; margin-top: 0.5rem; }
+.modal-submit:hover { background: var(--accent-light); color: var(--accent-text); }
+[data-theme="dark"] .modal-submit { background: var(--gold); color: var(--ink); }
+[data-theme="dark"] .modal-submit:hover { background: var(--cream); color: var(--ink); }
+.modal-note { text-align: center; font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--text3); margin-top: 1rem; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.success-msg { text-align: center; padding: 2rem 0; }
+.success-msg .check { font-size: 2.5rem; color: var(--gold); margin-bottom: 1rem; }
+.success-msg h3 { font-size: 1.5rem; font-weight: 300; color: var(--text); margin-bottom: 0.5rem; }
+.success-msg p { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--text3); }
+ 
+/* ── PROGRESS ── */
+.progress-section { background: var(--bg3); padding: 7rem 4rem; color: var(--cream); position: relative; overflow: hidden; }
+.progress-section::before { content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 800px; height: 400px; background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%); }
+.progress-inner { max-width: 900px; margin: 0 auto; text-align: center; position: relative; }
+.progress-inner h2 { font-size: 2.5rem; font-weight: 300; margin-bottom: 0.5rem; color: var(--cream); }
+.progress-inner h2 em { color: var(--gold); font-style: italic; }
+.progress-inner > p { color: rgba(240,232,216,0.65); font-size: 1rem; margin-bottom: 4rem; font-weight: 300; }
+.circles-row { display: flex; justify-content: center; align-items: center; gap: 1.2rem; margin-bottom: 3rem; flex-wrap: wrap; }
+.circle-step { display: flex; flex-direction: column; align-items: center; gap: 0.8rem; }
+.circle { width: 72px; height: 72px; border-radius: 50%; border: 1.5px solid; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-family: 'DM Mono', monospace; cursor: pointer; transition: all 0.25s; user-select: none; }
+.circle.filled { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+.circle.empty { border-color: rgba(240,232,216,0.3); color: rgba(240,232,216,0.45); }
+.circle.reward-idle { width: 88px; height: 88px; border-color: rgba(201,168,76,0.35); color: rgba(201,168,76,0.45); font-size: 0.6rem; text-align: center; line-height: 1.3; }
+.circle.reward-earned { width: 88px; height: 88px; border-color: var(--gold); background: rgba(201,168,76,0.1); color: var(--gold); font-size: 0.6rem; text-align: center; line-height: 1.3; animation: pulse 3s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0.2)} 50%{box-shadow:0 0 0 12px rgba(201,168,76,0)} }
+.circle-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,232,216,0.5); text-align: center; }
+.circle-connector { width: 30px; height: 1px; background: rgba(240,232,216,0.18); margin-bottom: 1.5rem; }
+.milestone-badge { display: inline-flex; align-items: center; gap: 0.8rem; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.35); padding: 0.8rem 2rem; color: var(--gold); font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.15em; margin-bottom: 1.5rem; }
+.btn-reset-journey { background: none; border: 1px solid rgba(240,232,216,0.25); color: rgba(240,232,216,0.55); font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.6rem 1.6rem; cursor: pointer; transition: all 0.2s; margin-top: 0.5rem; }
+.btn-reset-journey:hover { border-color: var(--gold); color: var(--gold); }
+ 
+/* ── LOGISTICS ── */
+.logistics-section { padding: 8rem 4rem; max-width: 1100px; margin: 0 auto; }
+.logistics-section > h2 { font-size: 2.5rem; font-weight: 300; margin-bottom: 4rem; color: var(--text); }
+.logistics-section > h2 em { font-style: italic; color: var(--gold); }
+.checklist-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0; border: 1px solid var(--border); }
+.checklist-item { padding: 3rem; border-right: 1px solid var(--border); position: relative; background: var(--card-bg); }
+.checklist-item:last-child { border-right: none; }
+.checklist-item::before { content: attr(data-num); font-family: 'DM Mono', monospace; font-size: 3rem; color: rgba(201,168,76,0.15); position: absolute; top: 1.5rem; right: 2rem; line-height: 1; }
+.checklist-icon { width: 40px; height: 40px; background: rgba(201,168,76,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; font-size: 1.1rem; }
+.checklist-item h3 { font-size: 1.2rem; font-weight: 400; margin-bottom: 0.8rem; color: var(--text); }
+.checklist-item p { font-size: 0.95rem; line-height: 1.75; color: var(--text2); font-weight: 300; }
+.tag { display: inline-block; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3rem 0.8rem; margin-top: 1rem; color: var(--gold); }
+ 
+/* ── SHOP — COLLECTION TABS ── */
+.shop-section { padding: 8rem 4rem; background: var(--bg2); }
+.shop-inner { max-width: 1100px; margin: 0 auto; }
+.shop-inner > h2 { font-size: clamp(2rem,4vw,2.8rem); font-weight: 300; margin-bottom: 0.6rem; color: var(--text); }
+.shop-inner > h2 em { font-style: italic; color: var(--gold); }
+.shop-inner > .shop-intro { font-size: 1rem; color: var(--text2); font-weight: 300; margin-bottom: 3rem; }
+ 
+.collection-tabs { display: flex; gap: 3px; margin-bottom: 3.5rem; flex-wrap: wrap; }
+.col-tab {
+  padding: 1rem 2rem; font-family: 'DM Mono', monospace; font-size: 0.68rem;
+  letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer;
+  border: none; background: var(--card-bg); color: var(--text2);
+  transition: all 0.2s; border-bottom: 2px solid transparent;
+}
+.col-tab:hover { color: var(--text); }
+.col-tab.active { background: var(--bg3); color: var(--accent); border-bottom-color: var(--accent); }
+[data-theme="dark"] .col-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.col-tab .tab-count { font-size: 0.55rem; opacity: 0.6; margin-left: 0.4rem; }
+ 
+.collection-panel { display: none; }
+.collection-panel.active { display: block; }
+ 
+.col-header { margin-bottom: 2.5rem; }
+.col-title { font-size: 1.8rem; font-weight: 300; color: var(--text); margin-bottom: 0.3rem; }
+.col-desc { font-size: 0.9rem; color: var(--text2); font-weight: 300; }
+ 
+.products-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 3px; }
+.product-card { background: var(--card-bg); padding: 2.5rem 2rem; display: flex; flex-direction: column; transition: transform 0.2s; border: 1px solid var(--border); }
+.product-card:hover { transform: translateY(-4px); }
+.product-icon { width: 80px; height: 110px; margin: 0 auto 2rem; display: flex; align-items: center; justify-content: center; }
+.product-name { font-size: 1.4rem; font-weight: 300; margin-bottom: 0.3rem; text-align: center; color: var(--text); }
+.product-note { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; color: var(--gold); text-transform: uppercase; text-align: center; margin-bottom: 1rem; }
+.product-desc { font-size: 0.9rem; color: var(--text2); line-height: 1.7; font-weight: 300; text-align: center; margin-bottom: 1.5rem; flex: 1; }
+.product-price { font-size: 1.6rem; font-weight: 300; text-align: center; margin-bottom: 1.5rem; color: var(--text); }
+.product-price span { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; color: var(--text3); display: block; margin-top: 0.2rem; }
+.btn-add { width: 100%; padding: 0.85rem; background: var(--accent); color: var(--accent-text); border: none; font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: all 0.25s; }
+.btn-add:hover { background: var(--accent-light); color: var(--accent-text); }
+.btn-add.added { background: var(--mist); color: #fff; }
+[data-theme="dark"] .btn-add { background: var(--gold); color: var(--ink); }
+[data-theme="dark"] .btn-add:hover { background: var(--cream); color: var(--ink); }
+ 
+/* ── PRICING ── */
+.pricing-section { padding: 8rem 4rem; background: var(--bg); }
+.pricing-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+.pricing-inner h2 { font-size: 2.5rem; font-weight: 300; margin-bottom: 0.5rem; color: var(--text); }
+.pricing-inner > p { color: var(--text2); margin-bottom: 4rem; font-weight: 300; }
+.pricing-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+.price-card { background: var(--bg2); padding: 3rem; text-align: left; border: 1px solid var(--border); }
+.price-card.featured { background: var(--bg3); color: var(--cream); border-color: rgba(201,168,76,0.25); }
+.price-badge { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; background: var(--gold); color: var(--ink); display: inline-block; padding: 0.3rem 0.8rem; margin-bottom: 2rem; }
+.price-track { font-size: 1.5rem; font-weight: 300; margin-bottom: 0.3rem; }
+.price-sub-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 2rem; }
+.price-amount { font-size: 3rem; font-weight: 300; margin-bottom: 0.3rem; letter-spacing: -0.02em; }
+.price-period { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; color: var(--text3); margin-bottom: 2rem; }
+.price-card.featured .price-period { color: rgba(240,232,216,0.5); }
+.price-features { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 2.5rem; }
+.price-features li { font-size: 0.95rem; font-weight: 300; display: flex; align-items: center; gap: 0.8rem; color: var(--text2); }
+.price-card.featured .price-features li { color: rgba(240,232,216,0.8); }
+.price-features li::before { content: '—'; color: var(--gold); flex-shrink: 0; }
+.price-card .btn-primary { width: 100%; text-align: center; display: block; padding: 1rem; }
+.price-card.featured .btn-primary { background: var(--gold); color: var(--ink); }
+.price-card.featured .btn-primary:hover { background: var(--cream); color: var(--ink); }
+ 
+/* ── CEO ── */
+.ceo-section { padding: 8rem 4rem; background: var(--bg3); color: var(--cream); position: relative; overflow: hidden; }
+.ceo-section::before { content: ''; position: absolute; top: -100px; right: -100px; width: 500px; height: 500px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.07); pointer-events: none; }
+.ceo-inner { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.4fr; gap: 6rem; align-items: center; }
+.ceo-photo-wrap { position: relative; }
+.ceo-photo-frame { width: 100%; aspect-ratio: 3/4; background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.2); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.ceo-photo-frame::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40%; background: linear-gradient(transparent, rgba(10,7,4,0.7)); }
+.ceo-initials { font-size: 5rem; font-weight: 300; color: rgba(201,168,76,0.3); letter-spacing: 0.1em; font-style: italic; }
+.ceo-name-plate { position: absolute; bottom: 1.5rem; left: 1.5rem; z-index: 2; }
+.ceo-name-plate p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; color: rgba(240,232,216,0.6); }
+.ceo-corner { position: absolute; top: -8px; right: -8px; width: 60px; height: 60px; border-top: 2px solid var(--gold); border-right: 2px solid var(--gold); }
+.ceo-content h2 { font-size: 2.5rem; font-weight: 300; margin-bottom: 0.3rem; color: var(--cream); }
+.ceo-content h2 em { font-style: italic; color: var(--gold); }
+.ceo-title { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 2rem; }
+.ceo-quote { font-size: 1.3rem; font-weight: 300; line-height: 1.75; color: rgba(240,232,216,0.88); font-style: italic; border-left: 2px solid var(--gold); padding-left: 1.5rem; margin-bottom: 2rem; }
+.ceo-bio { font-size: 0.95rem; line-height: 1.85; color: rgba(240,232,216,0.6); font-weight: 300; margin-bottom: 2.5rem; }
+.ceo-sig { font-size: 2rem; font-style: italic; font-weight: 300; color: var(--gold); opacity: 0.75; }
+ 
+/* ── CONTACT ── */
+.contact-section { padding: 8rem 4rem; background: var(--bg); }
+.contact-inner { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.4fr; gap: 6rem; }
+.contact-info h2 { font-size: 2.5rem; font-weight: 300; margin-bottom: 1rem; color: var(--text); }
+.contact-info h2 em { font-style: italic; color: var(--gold); }
+.contact-info > p { font-size: 1rem; color: var(--text2); line-height: 1.8; font-weight: 300; margin-bottom: 3rem; }
+.contact-details { display: flex; flex-direction: column; gap: 1.5rem; }
+.contact-detail-item { display: flex; gap: 1.2rem; align-items: flex-start; }
+.contact-icon { width: 40px; height: 40px; background: rgba(201,168,76,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+.contact-detail-item h4 { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
+.contact-detail-item p { font-size: 0.95rem; color: var(--text2); font-weight: 300; margin: 0; }
+.contact-form-wrap { background: var(--bg2); padding: 3rem; border: 1px solid var(--border); }
+.contact-form-wrap h3 { font-size: 1.5rem; font-weight: 300; margin-bottom: 0.5rem; color: var(--text); }
+.contact-form-wrap .form-note { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--text3); margin-bottom: 2rem; }
+.contact-form textarea { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); background: var(--input-bg); font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--text); outline: none; resize: vertical; min-height: 120px; transition: border-color 0.2s; }
+.contact-form textarea:focus { border-color: var(--gold); }
+.contact-form select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
+.form-success { display: none; text-align: center; padding: 2rem 0; }
+.form-success .check-icon { font-size: 2rem; color: var(--gold); margin-bottom: 1rem; }
+.form-success h4 { font-size: 1.3rem; font-weight: 300; color: var(--text); margin-bottom: 0.5rem; }
+.form-success p { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--text3); }
+ 
+/* ── FOOTER ── */
+footer { border-top: 1px solid var(--border); padding: 3rem 4rem; display: flex; justify-content: space-between; align-items: center; background: var(--bg); }
+.footer-logo { font-size: 1.2rem; font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; text-decoration: none; color: var(--text); }
+.footer-logo span { color: var(--gold); }
+footer p { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; color: var(--text3); text-transform: uppercase; }
+ 
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  nav { padding: 1.2rem 1.5rem; }
+  nav ul { display: none; flex-direction: column; gap: 0; position: absolute; top: 100%; left: 0; right: 0; background: var(--nav-bg); border-bottom: 1px solid rgba(201,168,76,0.2); padding: 0.5rem 0; backdrop-filter: blur(8px); }
+  nav ul.open { display: flex; }
+  nav ul li a { display: block; padding: 0.85rem 1.5rem; }
+  .hamburger { display: flex; }
+  .theme-label { display: none; }
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-right { min-height: 300px; }
+  .hero-left { padding: 4rem 2rem; }
+  .tracks-section, .logistics-section, .shop-section, .pricing-section, .ceo-section, .contact-section { padding: 5rem 2rem; }
+  .tracks-grid, .pricing-cards, .products-grid { grid-template-columns: 1fr; }
+  .checklist-grid { grid-template-columns: 1fr; }
+  .checklist-item { border-right: none !important; border-bottom: 1px solid var(--border); }
+  .checklist-item:last-child { border-bottom: none; }
+  .ceo-inner, .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .ceo-photo-frame { aspect-ratio: 4/3; }
+  footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem; }
+  .form-row { grid-template-columns: 1fr; }
+  .progress-section { padding: 5rem 2rem; }
+  .circles-row { gap: 0.6rem; }
+  .circle { width: 56px; height: 56px; }
+  .circle.reward-idle, .circle.reward-earned { width: 70px; height: 70px; }
+  .collection-tabs { flex-direction: column; gap: 2px; }
+  .col-tab { text-align: left; }
+  .floating-bag { right: 1.2rem; bottom: 1.2rem; width: 54px; height: 54px; }
+  .bag-panel { right: 1rem; bottom: 5.5rem; width: calc(100vw - 2rem); max-width: 360px; }
+}
+ 
+/* ── SAMPLE CARD ANIMATION ── */
+@keyframes bottleFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(-2deg); }
+}
+.sample-card { position: relative; }
+.sample-tag {
+  position: absolute; top: 0.9rem; left: 0.9rem;
+  background: var(--accent-pale); color: var(--accent);
+  border: 1px solid var(--accent);
+  font-family: 'DM Mono', monospace; font-size: 0.55rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.25rem 0.6rem; border-radius: 2px; z-index: 2;
+}
+[data-theme="dark"] .sample-tag { background: rgba(201,168,76,0.12); color: var(--gold); border-color: var(--gold); }
+.samples-grid { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 960px) { .samples-grid { grid-template-columns: 1fr; } }
+ 
+/* ── FLOATING BAG ── */
+.floating-bag {
+  position: fixed; right: 2rem; bottom: 2rem; z-index: 300;
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--accent); color: var(--accent-text);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  border: none; transition: transform 0.2s;
+}
+[data-theme="dark"] .floating-bag { background: var(--gold); color: var(--ink); }
+.floating-bag:hover { transform: scale(1.06); }
+.floating-bag svg { width: 24px; height: 24px; }
+.bag-count {
+  position: absolute; top: -4px; right: -4px;
+  background: var(--blush); color: #fff;
+  font-family: 'DM Mono', monospace; font-size: 0.62rem; font-weight: 600;
+  width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--bg);
+}
+.bag-count.hidden { display: none; }
+ 
+.bag-panel {
+  position: fixed; right: 2rem; bottom: 6.5rem; z-index: 300;
+  width: 340px; max-height: 60vh; overflow-y: auto;
+  background: var(--card-bg); border: 1px solid var(--border);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.25);
+  display: none; flex-direction: column;
+}
+.bag-panel.open { display: flex; }
+.bag-panel-header {
+  padding: 1.2rem 1.4rem; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.bag-panel-header h4 { font-size: 1.1rem; font-weight: 400; color: var(--text); }
+.bag-panel-close { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text3); }
+.bag-items { padding: 0.5rem 1.4rem; flex: 1; overflow-y: auto; }
+.bag-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.85rem 0; border-bottom: 1px solid var(--border);
+  font-family: 'DM Mono', monospace; font-size: 0.7rem;
+}
+.bag-item:last-child { border-bottom: none; }
+.bag-item-name { color: var(--text); flex: 1; padding-right: 0.5rem; line-height: 1.5; }
+.bag-item-price { color: var(--text2); white-space: nowrap; }
+.bag-empty { padding: 2rem 1.4rem; text-align: center; color: var(--text3); font-family: 'DM Mono', monospace; font-size: 0.7rem; }
+.bag-panel-footer { padding: 1.2rem 1.4rem; border-top: 1px solid var(--border); }
+.bag-total-row { display: flex; justify-content: space-between; font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--text); margin-bottom: 1rem; letter-spacing: 0.05em; }
+.bag-checkout-btn { width: 100%; padding: 0.85rem; background: var(--accent); color: var(--accent-text); border: none; font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; }
+[data-theme="dark"] .bag-checkout-btn { background: var(--gold); color: var(--ink); }
+ 
+/* ── GIFT-WRAPPED REWARD ── */
+.circle.reward-idle {
+  position: relative; overflow: hidden; border-color: rgba(201,168,76,0.5);
+}
+.gift-wrap-bg {
+  position: absolute; inset: 0; border-radius: 50%;
+  background:
+    repeating-linear-gradient(45deg, rgba(192,112,96,0.55) 0 6px, rgba(154,40,40,0.55) 6px 12px);
+}
+.gift-ribbon-v { position: absolute; top: 0; bottom: 0; left: 50%; width: 14%; transform: translateX(-50%); background: rgba(245,240,232,0.85); }
+.gift-ribbon-h { position: absolute; left: 0; right: 0; top: 50%; height: 14%; transform: translateY(-50%); background: rgba(245,240,232,0.85); }
+.gift-bow { position: absolute; top: -6px; left: 50%; transform: translateX(-50%); font-size: 1.1rem; z-index: 3; }
+.gift-label { position: relative; z-index: 3; font-family: 'DM Mono', monospace; font-size: 0.5rem; letter-spacing: 0.08em; color: var(--cream); text-shadow: 0 1px 2px rgba(0,0,0,0.4); text-align: center; line-height: 1.2; }
+</style>
 </head>
 <body>
-
-    <!-- SITE NAVIGATION HEADER -->
-    <header class="site-header">
-        <div class="header-container">
-            <div class="nav-left">
-                <a href="#" class="brand-logo">L</a>
-            </div>
-            <div class="nav-right">
-                <span class="view-mode" id="theme-status">Daylight View</span>
-            </div>
-        </div>
-    </header>
-
-    <main class="showroom-wrapper">
-        
-        <!-- THE CINEMATIC HERO CANVAS (LEFT) -->
-        <section class="display-stage" id="ambient-stage">
-            <div class="cabinet-lighting">
-                <div class="lamp">
-                    <div class="lamp-shade"></div>
-                    <div class="lamp-glow"></div>
-                    <div class="pull-string" id="theme-pull-string" title="Pull to toggle lights"></div>
-                </div>
-            </div>
-
-            <div class="hero-story-container">
-                <div class="hero-text-side">
-                    <h1 class="hero-headline">Amazing scent that <br>reflects <span id="hero-dynamic-word" class="serif-italic">character</span></h1>
-                    <p class="hero-subtext" id="hero-dynamic-subtext">L'Essence delivers distinctive fragrances with an elegant, modern touch—crafted meticulously for individuals who stand out.</p>
-                    <div class="hero-cta-group">
-                        <button class="btn-dark" id="hero-primary-btn">Discover collection</button>
-                        <button class="btn-light" id="contact-trigger-btn">Contact us</button>
-                    </div>
-                </div>
-
-                <div class="hero-image-side">
-                    <div class="silk-drape-overlay"></div>
-                    <div class="showcase-bottle-wrapper">
-                        <div class="hero-perfume-bottle" id="hero-bottle-render">
-                            <div class="hero-cap"></div>
-                            <div class="hero-glass-body liquid-woody" id="hero-liquid-core">
-                                <div class="hero-glass-shine"></div>
-                                <div class="hero-bottle-inner-label">
-                                    <p class="label-brand">L'ESSENCE</p>
-                                    <h3 id="hero-label-name">Santal Nuit</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="floating-product-card">
-                        <span class="badge-tag">Collection Focus</span>
-                        <h4 id="badge-title">Santal Nuit</h4>
-                        <p id="badge-meta">Woody / Rich</p>
-                        <span class="badge-price" id="badge-price">$145.00</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- THE ARCHITECTURAL ARCHIVE PANEL (RIGHT) -->
-        <aside class="info-sidebar">
-            <div class="sidebar-header-tag">
-                <span class="scent-tag">Boutique Grid Selection</span>
-                <p class="sidebar-instruction">Click a bottle below to transition the showroom narrative canvas</p>
-            </div>
-
-            <div class="cabinet-grid-wrapper">
-                <div class="cabinet-frame">
-                    
-                    <!-- SHELF ROW 1 -->
-                    <div class="cabinet-shelf">
-                        <div class="shelf-surface"></div>
-                        <div class="shelf-items">
-                            
-                            <div class="shelf-item locked" 
-                                 data-name="Santal Nuit" data-price="$145.00" data-tag="Woody / Rich" data-word="character"
-                                 data-desc="An intimate, shadow-filled atmosphere captured in premium glass. Dark papyrus and spicy cardamom give way to a creamy Australian sandalwood base." 
-                                 data-top="Cardamom, Cypress" data-heart="Papyrus, Iris Accord" data-base="Sandalwood"
-                                 data-accent="var(--accent-woody)" data-liquid="liquid-woody"
-                                 data-stage-bg="linear-gradient(135deg, #ecdccf 0%, #d5bead 100%)">
-                                <div class="perfume-bottle">
-                                    <div class="cap"></div>
-                                    <div class="glass-body liquid-woody"><div class="shimmer-glare"></div><span>SANTAL</span></div>
-                                </div>
-                            </div>
-
-                            <div class="shelf-item" 
-                                 data-name="Fleur de Cerisier" data-price="$160.00" data-tag="Floral / Delicate" data-word="elegance"
-                                 data-desc="A bright, crisp interpretation of spring rain in luxury gardens. Petals of cherry blossom floating down onto soft, clean white musks and Bergamot zest." 
-                                 data-top="Calabrian Bergamot" data-heart="Sakura Blossom" data-base="White Musk"
-                                 data-accent="var(--accent-floral)" data-liquid="liquid-floral"
-                                 data-stage-bg="linear-gradient(135deg, #f5e6e8 0%, #dec2c5 100%)">
-                                <div class="perfume-bottle">
-                                    <div class="cap"></div>
-                                    <div class="glass-body liquid-floral"><div class="shimmer-glare"></div><span>FLEUR</span></div>
-                                </div>
-                            </div>
-
-                            <div class="shelf-item" 
-                                 data-name="Agrume Fraîche" data-price="$130.00" data-tag="Citrus / Raw" data-word="vibrancy"
-                                 data-desc="An injection of pure, morning energy. Crushed green lemons and vibrant Tunisian neroli oil anchored firmly by a sophisticated dry down of crisp amber." 
-                                 data-top="Crushed Lemon" data-heart="Tunisian Neroli" data-base="Clean Amber"
-                                 data-accent="var(--accent-citrus)" data-liquid="liquid-citrus"
-                                 data-stage-bg="linear-gradient(135deg, #f0f5e6 0%, #d2ddbe 100%)">
-                                <div class="perfume-bottle">
-                                    <div class="cap"></div>
-                                    <div class="glass-body liquid-citrus"><div class="shimmer-glare"></div><span>AGRUME</span></div>
-                                </div>
-                            </div>
-
-                            <div class="shelf-item" 
-                                 data-name="Oud Impérial" data-price="$195.00" data-tag="Exotic / Deep" data-word="mystery"
-                                 data-desc="A dense, mysterious journey through dark woods and rare resins. A highly sophisticated, smoky agarwood core designed for the bold iconoclast." 
-                                 data-top="Spiced Saffron" data-heart="Smoky Agarwood" data-base="Dark Leather"
-                                 data-accent="var(--accent-oud)" data-liquid="liquid-oud"
-                                 data-stage-bg="linear-gradient(135deg, #dfdcd6 0%, #c4bfae 100%)">
-                                <div class="perfume-bottle">
-                                    <div class="cap gold-cap"></div>
-                                    <div class="glass-body liquid-oud"><div class="shimmer-glare"></div><span>OUD</span></div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <!-- SHELF ROW 2 -->
-                    <div class="cabinet-shelf">
-                        <div class="shelf-surface"></div>
-                        <div class="shelf-items">
-                            <div class="shelf-item" data-name="Vétiver Vert" data-price="$150.00" data-tag="Earthy / Fresh" data-word="grounding" data-desc="Crisp native grass notes paired with clean bergamot and a deeply grounding, smoky Haitian vetiver base." data-top="Bergamot" data-heart="Wild Sage" data-base="Haitian Vetiver" data-accent="var(--accent-citrus)" data-liquid="liquid-citrus" data-stage-bg="linear-gradient(135deg, #e6ecdf 0%, #cad4c1 100%)">
-                                <div class="perfume-bottle"><div class="cap"></div><div class="glass-body liquid-citrus"><div class="shimmer-glare"></div><span>VERT</span></div></div>
-                            </div>
-                            <div class="shelf-item" data-name="Rose Noir" data-price="$170.00" data-tag="Floral / Opulent" data-word="passion" data-desc="A deep, dramatic midnight rose. Velvety damask rose absolute blended seamlessly with dark patchouli and black pepper." data-top="Black Pepper" data-heart="Damask Rose" data-base="Patchouli" data-accent="var(--accent-floral)" data-liquid="liquid-floral" data-stage-bg="linear-gradient(135deg, #fcdbe0 0%, #e2b3ba 100%)">
-                                <div class="perfume-bottle"><div class="cap"></div><div class="glass-body liquid-floral"><div class="shimmer-glare"></div><span>ROSE</span></div></div>
-                            </div>
-                            <div class="shelf-item" data-name="Ambre Gris" data-price="$180.00" data-tag="Warm / Mineral" data-word="warmth" data-desc="A complex, mineral warmth that mimics salted skin, rich labdanum resin, and absolute vanilla bean extracts." data-top="Sea Salt" data-heart="Labdanum" data-base="Vanilla Bean" data-accent="var(--accent-woody)" data-liquid="liquid-woody" data-stage-bg="linear-gradient(135deg, #f6ebd8 0%, #dfcea9 100%)">
-                                <div class="perfume-bottle"><div class="cap"></div><div class="glass-body liquid-woody"><div class="shimmer-glare"></div><span>AMBRE</span></div></div>
-                            </div>
-                            <div class="shelf-item" data-name="Cuir Blanc" data-price="$165.00" data-tag="Leathery / Smooth" data-word="prestige" data-desc="Clean structural leather lines. Sharp white pepper combined with white musk and structural iris." data-top="White Pepper" data-heart="Iris Accord" data-base="White Leather" data-accent="var(--accent-oud)" data-liquid="liquid-oud" data-stage-bg="linear-gradient(135deg, #eaeaea 0%, #c8c8c8 100%)">
-                                <div class="perfume-bottle"><div class="cap gold-cap"></div><div class="glass-body liquid-oud"><div class="shimmer-glare"></div><span>CUIR</span></div></div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- COMPACT OLFACTORY PYRAMID BLUEPRINT DISPLAY -->
-            <div class="pyramid-data-card">
-                <div class="pyramid-row">
-                    <span class="pyr-lbl">Top note:</span>
-                    <span id="side-top" class="pyr-val">—</span>
-                </div>
-                <div class="pyramid-row">
-                    <span class="pyr-lbl">Heart note:</span>
-                    <span id="side-heart" class="pyr-val">—</span>
-                </div>
-                <div class="pyramid-row">
-                    <span class="pyr-lbl">Base note:</span>
-                    <span id="side-base" class="pyr-val">—</span>
-                </div>
-            </div>
-        </aside>
-    </main>
-
-    <!-- INTERACTIVE CONTACT MODAL COMPONENT -->
-    <div class="contact-modal-overlay" id="contact-modal">
-        <div class="contact-modal-card">
-            <button class="modal-close-btn" id="contact-close-btn" aria-label="Close form">&times;</button>
-            <div class="modal-inner-layout">
-                <div class="modal-decor-side">
-                    <h3>LADE'S Scent</h3>
-                    <p>EXPLORE THE WORLD OF FRAGRANCES</p>
-                </div>
-                <div class="modal-form-side">
-                    <h2>Connect With Us</h2>
-                    <p class="form-intro">Leave a message for private showroom bookings or order inquiries.</p>
-                    <form id="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully!'); document.getElementById('contact-modal').classList.remove('open');">
-                        <div class="form-field">
-                            <label for="client-name">Your Name</label>
-                            <input type="text" id="client-name" required placeholder="Jean Dupont">
-                        </div>
-                        <div class="form-field">
-                            <label for="client-email">Email Address</label>
-                            <input type="email" id="client-email" required placeholder="Davidtimilehin146@gmail.com">
-                        </div>
-                        <div class="form-field">
-                            <label for="client-message">Inquiry Details</label>
-                            <textarea id="client-message" rows="4" required placeholder="Tell us about your fragrances preference..."></textarea>
-                        </div>
-                        <button type="submit" class="form-submit-btn">Send Message</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+ 
+<!-- NAV -->
+<nav id="top">
+  <a href="#top" class="logo">Scent<span>Flow</span></a>
+  <ul id="navMenu">
+    <li><a href="#tracks">The Tracks</a></li>
+    <li><a href="#journey">Journey</a></li>
+    <li><a href="#shop">Shop</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#ceo">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="dashboard.html" class="nav-dashboard">Dashboard</a></li>
+    <li><a href="#" class="nav-cta" id="navGetStarted">Get Started</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="theme-toggle" id="themeToggle" title="Toggle dark mode">
+      <span class="theme-label" id="themeLabel">Light</span>
+      <div class="toggle-track" id="toggleTrack">
+        <div class="toggle-thumb"></div>
+      </div>
     </div>
-
-    <script src="app.js"></script>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+ 
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="eyebrow">The Tailored Fragrance Flow</div>
+    <h1>Two paths.<br><em>One reward.</em></h1>
+    <p class="hero-desc">A fragrance loyalty system built around how your customers actually buy — with a milestone that makes the full bottle feel like it was always meant for them.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary" id="heroGetStarted">Choose Your Track</a>
+      <a href="#journey" class="btn-ghost">See How It Works →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="bottle-visual">
+      <svg class="bottle-svg" viewBox="0 0 160 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="65" y="20" width="30" height="12" rx="3" fill="rgba(201,168,76,0.6)"/>
+        <rect x="60" y="10" width="40" height="16" rx="4" fill="#c9a84c"/>
+        <path d="M40 80 Q40 56 65 52 L95 52 Q120 56 120 80" fill="rgba(245,240,232,0.12)" stroke="rgba(201,168,76,0.4)" stroke-width="1"/>
+        <rect x="40" y="80" width="80" height="160" rx="4" fill="rgba(245,240,232,0.08)" stroke="rgba(201,168,76,0.35)" stroke-width="1"/>
+        <rect x="52" y="110" width="56" height="80" rx="2" fill="rgba(201,168,76,0.07)" stroke="rgba(201,168,76,0.2)" stroke-width="0.5"/>
+        <rect x="65" y="128" width="30" height="2" rx="1" fill="rgba(201,168,76,0.5)"/>
+        <rect x="60" y="136" width="40" height="1" rx="0.5" fill="rgba(245,240,232,0.25)"/>
+        <rect x="63" y="143" width="34" height="1" rx="0.5" fill="rgba(245,240,232,0.15)"/>
+        <rect x="67" y="150" width="26" height="1" rx="0.5" fill="rgba(245,240,232,0.15)"/>
+        <rect x="40" y="236" width="80" height="8" rx="2" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.25)" stroke-width="0.5"/>
+        <rect x="70" y="32" width="20" height="20" rx="2" fill="rgba(245,240,232,0.08)" stroke="rgba(201,168,76,0.3)" stroke-width="0.5"/>
+        <rect x="47" y="90" width="6" height="130" rx="3" fill="rgba(245,240,232,0.06)"/>
+      </svg>
+      <p class="hero-tagline">Month 5 Milestone Reward</p>
+    </div>
+  </div>
+</section>
+ 
+<!-- TRACKS -->
+<section class="tracks-section" id="tracks">
+  <div class="tracks-header">
+    <div class="section-label">The System</div>
+    <h2>Two tracks, one <em>destination</em></h2>
+    <p>Every customer reaches the same reward — at their own pace, on their own terms.</p>
+  </div>
+  <div class="tracks-grid">
+    <div class="track-card subscription">
+      <div class="track-number">Track 01 / 02</div>
+      <div class="track-title">Subscription</div>
+      <div class="track-subtitle">The Monthly Routine</div>
+      <div class="track-feature"><div class="track-feature-label">Billing Cycle</div><div class="track-feature-value">Fixed monthly fee, predictable &amp; automatic</div></div>
+      <div class="track-feature"><div class="track-feature-label">Delivery Schedule</div><div class="track-feature-value">One mist/spray delivered on your chosen Subscription Day — all orders ship simultaneously</div></div>
+      <div class="track-feature"><div class="track-feature-label">Milestone Reward</div><div class="track-feature-value">Month 5 of consecutive active subscription includes the full perfume bottle, automatically</div></div>
+      <div class="track-feature"><div class="track-feature-label">Your Benefit</div><div class="track-feature-value">Predictable inventory. Know exactly how many mists to prepare each month.</div></div>
+      <button class="track-cta" id="subscribeBtn">Create Account &amp; Subscribe →</button>
+    </div>
+    <div class="track-card direct">
+      <div class="track-number">Track 02 / 02</div>
+      <div class="track-title">Direct Purchase</div>
+      <div class="track-subtitle">The On-Demand Routine</div>
+      <div class="track-feature"><div class="track-feature-label">Buying Cycle</div><div class="track-feature-value">Buy whenever you want — no commitment, full flexibility</div></div>
+      <div class="track-feature"><div class="track-feature-label">Fulfilment</div><div class="track-feature-value">Ships within 24–48 hours of each purchase</div></div>
+      <div class="track-feature"><div class="track-feature-label">Milestone Reward</div><div class="track-feature-value">Buy 5 mists over any timeframe, earn the full perfume bottle</div></div>
+      <div class="track-feature"><div class="track-feature-label">Your Benefit</div><div class="track-feature-value">Higher per-item profit margins. No heavy subscription discounts built in.</div></div>
+      <a href="#shop" class="track-cta">Browse the Shop →</a>
+    </div>
+  </div>
+</section>
+ 
+<!-- ACCOUNT MODAL -->
+<div class="modal-overlay" id="accountModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-eyebrow">ScentFlow Subscription</div>
+    <h2>Your account</h2>
+    <p class="modal-sub">Sign in or create a new account to start your subscription</p>
+    <div class="modal-tabs">
+      <button class="modal-tab active" data-tab="signup">Create Account</button>
+      <button class="modal-tab" data-tab="login">Sign In</button>
+    </div>
+    <div class="tab-panel active" id="tab-signup">
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" id="firstName" placeholder="Amara"></div>
+        <div class="form-group"><label>Last Name</label><input type="text" id="lastName" placeholder="Okafor"></div>
+      </div>
+      <div class="form-group"><label>Email Address</label><input type="email" id="signupEmail" placeholder="amara@example.com"></div>
+      <div class="form-group"><label>Phone Number</label><input type="tel" id="signupPhone" placeholder="+234 800 000 0000"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="signupPassword" placeholder="Choose a password"></div>
+      <div class="form-group">
+        <label>Subscription Plan</label>
+        <select id="subPlan">
+          <option value="">Select a plan</option>
+          <option value="monthly">Monthly — ₦8,500/month</option>
+          <option value="quarterly">Quarterly — ₦24,000 (save ₦1,500)</option>
+        </select>
+      </div>
+      <button class="modal-submit" id="signupSubmit">Create Account &amp; Subscribe</button>
+      <p class="modal-note">By creating an account you agree to our Terms &amp; Privacy Policy.</p>
+    </div>
+    <div class="tab-panel" id="tab-login">
+      <div class="form-group"><label>Email Address</label><input type="email" id="loginEmail" placeholder="amara@example.com"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="Your password"></div>
+      <button class="modal-submit" id="loginSubmit">Sign In</button>
+      <p class="modal-note">Forgot your password? <a href="#" style="color:var(--gold)">Reset it here.</a></p>
+    </div>
+    <div class="tab-panel" id="tab-success">
+      <div class="success-msg">
+        <div class="check">✦</div>
+        <h3>Welcome to ScentFlow</h3>
+        <p>Your account has been created. Your first delivery is on its way.</p>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<!-- JOURNEY -->
+<section class="progress-section" id="journey">
+  <div class="progress-inner">
+    <div class="section-label" style="color:var(--gold);margin-bottom:0.5rem;">The Journey</div>
+    <h2>Fill the five <em>circles.</em><br>Earn the bottle.</h2>
+    <p>Every purchase fills one circle — regardless of which track you're on</p>
+    <div class="circles-row" id="journeyCircles"></div>
+    <div class="milestone-badge" id="journeyBadge">✦ &nbsp;<span id="journeyBadgeText">0 of 5 complete</span></div>
+    <br>
+    <button class="btn-reset-journey" id="resetJourneyBtn">↺ Reset Journey</button>
+  </div>
+</section>
+ 
+<!-- LOGISTICS -->
+<section style="padding:8rem 4rem;background:var(--bg);" id="logistics">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="section-label">Operations</div>
+    <h2 style="font-size:2.5rem;font-weight:300;margin-bottom:4rem;color:var(--text);">How the <em style="color:var(--gold);font-style:italic;">backend</em> works</h2>
+    <div class="checklist-grid">
+      <div class="checklist-item" data-num="01">
+        <div class="checklist-icon">📦</div>
+        <h3>Batch Subscription Deliveries</h3>
+        <p>Choose one fixed date — the 1st or the 15th — as your Subscription Delivery Day. Every subscriber's package ships at exactly the same time, reducing logistics overhead.</p>
+        <span class="tag">Ship every 1st of month</span>
+      </div>
+      <div class="checklist-item" data-num="02">
+        <div class="checklist-icon">⚡</div>
+        <h3>Direct Sale Window</h3>
+        <p>Treat direct orders like standard e-commerce. Each purchase ships independently within 24–48 hours. No batching required — instant fulfillment keeps buyers happy.</p>
+        <span class="tag">24–48 hr turnaround</span>
+      </div>
+      <div class="checklist-item" data-num="03">
+        <div class="checklist-icon">📊</div>
+        <h3>Track Customer Progress</h3>
+        <p>Subscription users auto-track via billing cycles. For direct buyers, log each purchase against their email or phone to track punch card progress toward the reward.</p>
+        <span class="tag">Email / Phone lookup</span>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- SHOP — COLLECTIONS -->
+<section class="shop-section" id="shop">
+  <div class="shop-inner">
+    <div class="section-label">Direct Purchase</div>
+    <h2>Shop <em>the collection</em></h2>
+    <p class="shop-intro">No subscription needed. Buy when you want. Every 5th purchase earns your full bottle.</p>
+ 
+    <div class="collection-tabs">
+      <button class="col-tab active" data-col="mist">Mist <span class="tab-count">(3)</span></button>
+      <button class="col-tab" data-col="spray">Spray <span class="tab-count">(3)</span></button>
+      <button class="col-tab" data-col="perfume">Perfume <span class="tab-count">(3)</span></button>
+    </div>
+ 
+        <div class="collection-panel active" id="col-mist">
+      <div class="col-header">
+        <div class="col-title">Mist Collection</div>
+        <div class="col-desc">Light, refreshing samples of our mist line — perfect for discovering a scent before committing. 10ml each.</div>
+      </div>
+      <div class="products-grid samples-grid">
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 4.5s ease-in-out 0.0s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#c9a84c" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#c9a84c"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(201,168,76,0.06)" stroke="rgba(201,168,76,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(201,168,76,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(201,168,76,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(201,168,76,0.2)"/></svg></div>
+          <div class="product-name">Club de Nuirt</div>
+          <div class="product-note">Mist Sample · 10ml</div>
+          <div class="product-desc">Deep woody oud with amber and smoked leather.</div>
+          <div class="product-price">₦2,500 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="Club de Nuirt Mist" data-price="2500">Add to Bag</button>
+        </div>
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 5.1s ease-in-out 0.4s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#8b9e8b" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#8b9e8b"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(139,158,139,0.1)" stroke="rgba(139,158,139,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(139,158,139,0.08)" stroke="rgba(139,158,139,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(139,158,139,0.06)" stroke="rgba(139,158,139,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(139,158,139,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(139,158,139,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(139,158,139,0.2)"/></svg></div>
+          <div class="product-name">Kaylia</div>
+          <div class="product-note">Mist Sample · 10ml</div>
+          <div class="product-desc">Clean earthy vetiver lifted with white musk and bergamot.</div>
+          <div class="product-price">₦2,000 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="Kaylia Mist" data-price="2000">Add to Bag</button>
+        </div>
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 5.7s ease-in-out 0.8s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#d4a8a0" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#d4a8a0"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(212,168,160,0.1)" stroke="rgba(212,168,160,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(212,168,160,0.08)" stroke="rgba(212,168,160,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(212,168,160,0.06)" stroke="rgba(212,168,160,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(212,168,160,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(212,168,160,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(212,168,160,0.2)"/></svg></div>
+          <div class="product-name">Wave Plan Perfect</div>
+          <div class="product-note">Mist Sample · 10ml</div>
+          <div class="product-desc">Sun-warmed rose and jasmine over a warm sandalwood base.</div>
+          <div class="product-price">₦1,800 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="Wave Plan Perfect Mist" data-price="1800">Add to Bag</button>
+        </div>
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 6.3s ease-in-out 1.2000000000000002s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#a3833a" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#a3833a"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(163,131,58,0.1)" stroke="rgba(163,131,58,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(163,131,58,0.08)" stroke="rgba(163,131,58,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(163,131,58,0.06)" stroke="rgba(163,131,58,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(163,131,58,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(163,131,58,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(163,131,58,0.2)"/></svg></div>
+          <div class="product-name">Club de Nuirt — Intense</div>
+          <div class="product-note">Mist Sample · 10ml</div>
+          <div class="product-desc">A heavier pour of our signature oud, leaned further into smoke.</div>
+          <div class="product-price">₦2,500 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="Club de Nuirt - Intense Mist" data-price="2500">Add to Bag</button>
+        </div>
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 4.5s ease-in-out 1.6s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#6f8f6f" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#6f8f6f"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(111,143,111,0.1)" stroke="rgba(111,143,111,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(111,143,111,0.08)" stroke="rgba(111,143,111,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(111,143,111,0.06)" stroke="rgba(111,143,111,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(111,143,111,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(111,143,111,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(111,143,111,0.2)"/></svg></div>
+          <div class="product-name">Kaylia — Citrus Edit</div>
+          <div class="product-note">Mist Sample · 10ml</div>
+          <div class="product-desc">Brighter top notes of grapefruit over the original vetiver base.</div>
+          <div class="product-price">₦2,000 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="Kaylia - Citrus Edit Mist" data-price="2000">Add to Bag</button>
+        </div>
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 5.1s ease-in-out 0.0s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#b9847a" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#b9847a"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(185,132,122,0.1)" stroke="rgba(185,132,122,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(185,132,122,0.08)" stroke="rgba(185,132,122,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(185,132,122,0.06)" stroke="rgba(185,132,122,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(185,132,122,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(185,132,122,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(185,132,122,0.2)"/></svg></div>
+          <div class="product-name">Wave Plan Perfect — Night</div>
+          <div class="product-note">Mist Sample · 10ml</div>
+          <div class="product-desc">Rose and jasmine deepened with a touch of vanilla musk for evenings.</div>
+          <div class="product-price">₦1,800 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="Wave Plan Perfect - Night Mist" data-price="1800">Add to Bag</button>
+        </div>
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 5.7s ease-in-out 0.4s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#bca36b" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#bca36b"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(188,163,107,0.1)" stroke="rgba(188,163,107,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(188,163,107,0.08)" stroke="rgba(188,163,107,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(188,163,107,0.06)" stroke="rgba(188,163,107,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(188,163,107,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(188,163,107,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(188,163,107,0.2)"/></svg></div>
+          <div class="product-name">ScentFlow Discovery Set</div>
+          <div class="product-note">Mist Sample · 10ml</div>
+          <div class="product-desc">A taste of all three signatures in one sample — for first-time buyers.</div>
+          <div class="product-price">₦3,000 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="ScentFlow Discovery Set Mist" data-price="3000">Add to Bag</button>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="collection-panel" id="col-spray">
+      <div class="col-header">
+        <div class="col-title">Spray Collection</div>
+        <div class="col-desc">Sample-sized pours of our eau de toilette sprays — medium sillage, long-lasting. 10ml each.</div>
+      </div>
+      <div class="products-grid samples-grid">
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 4.5s ease-in-out 0.0s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#c9a84c" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#c9a84c"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(201,168,76,0.06)" stroke="rgba(201,168,76,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(201,168,76,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(201,168,76,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(201,168,76,0.2)"/></svg></div>
+          <div class="product-name">Club de Nuirt</div>
+          <div class="product-note">Spray Sample · 10ml</div>
+          <div class="product-desc">The spray version of our flagship scent — bolder projection, deeper amber trails.</div>
+          <div class="product-price">₦3,000 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="Club de Nuirt Spray" data-price="3000">Add to Bag</button>
+        </div>
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 5.1s ease-in-out 0.4s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#8b9e8b" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#8b9e8b"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(139,158,139,0.1)" stroke="rgba(139,158,139,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(139,158,139,0.08)" stroke="rgba(139,158,139,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(139,158,139,0.06)" stroke="rgba(139,158,139,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(139,158,139,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(139,158,139,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(139,158,139,0.2)"/></svg></div>
+          <div class="product-name">Kaylia</div>
+          <div class="product-note">Spray Sample · 10ml</div>
+          <div class="product-desc">Elevated vetiver and bergamot, office-to-evening effortless.</div>
+          <div class="product-price">₦2,500 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="Kaylia Spray" data-price="2500">Add to Bag</button>
+        </div>
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 5.7s ease-in-out 0.8s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#d4a8a0" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#d4a8a0"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(212,168,160,0.1)" stroke="rgba(212,168,160,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(212,168,160,0.08)" stroke="rgba(212,168,160,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(212,168,160,0.06)" stroke="rgba(212,168,160,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(212,168,160,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(212,168,160,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(212,168,160,0.2)"/></svg></div>
+          <div class="product-name">Wave Plan Perfect</div>
+          <div class="product-note">Spray Sample · 10ml</div>
+          <div class="product-desc">Rose and jasmine bloom on a sandalwood and musk base.</div>
+          <div class="product-price">₦2,200 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="Wave Plan Perfect Spray" data-price="2200">Add to Bag</button>
+        </div>
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 6.3s ease-in-out 1.2000000000000002s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#a3833a" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#a3833a"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(163,131,58,0.1)" stroke="rgba(163,131,58,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(163,131,58,0.08)" stroke="rgba(163,131,58,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(163,131,58,0.06)" stroke="rgba(163,131,58,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(163,131,58,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(163,131,58,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(163,131,58,0.2)"/></svg></div>
+          <div class="product-name">Club de Nuirt — Intense</div>
+          <div class="product-note">Spray Sample · 10ml</div>
+          <div class="product-desc">Maximum projection variant of the signature oud spray.</div>
+          <div class="product-price">₦3,000 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="Club de Nuirt - Intense Spray" data-price="3000">Add to Bag</button>
+        </div>
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 4.5s ease-in-out 1.6s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#6f8f6f" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#6f8f6f"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(111,143,111,0.1)" stroke="rgba(111,143,111,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(111,143,111,0.08)" stroke="rgba(111,143,111,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(111,143,111,0.06)" stroke="rgba(111,143,111,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(111,143,111,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(111,143,111,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(111,143,111,0.2)"/></svg></div>
+          <div class="product-name">Kaylia — Citrus Edit</div>
+          <div class="product-note">Spray Sample · 10ml</div>
+          <div class="product-desc">A lighter, zestier spray cut of the Kaylia line.</div>
+          <div class="product-price">₦2,500 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="Kaylia - Citrus Edit Spray" data-price="2500">Add to Bag</button>
+        </div>
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 5.1s ease-in-out 0.0s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#b9847a" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#b9847a"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(185,132,122,0.1)" stroke="rgba(185,132,122,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(185,132,122,0.08)" stroke="rgba(185,132,122,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(185,132,122,0.06)" stroke="rgba(185,132,122,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(185,132,122,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(185,132,122,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(185,132,122,0.2)"/></svg></div>
+          <div class="product-name">Wave Plan Perfect — Night</div>
+          <div class="product-note">Spray Sample · 10ml</div>
+          <div class="product-desc">A deepened, muskier spray version for evening wear.</div>
+          <div class="product-price">₦2,200 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="Wave Plan Perfect - Night Spray" data-price="2200">Add to Bag</button>
+        </div>
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 5.7s ease-in-out 0.4s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#bca36b" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#bca36b"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(188,163,107,0.1)" stroke="rgba(188,163,107,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(188,163,107,0.08)" stroke="rgba(188,163,107,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(188,163,107,0.06)" stroke="rgba(188,163,107,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(188,163,107,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(188,163,107,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(188,163,107,0.2)"/></svg></div>
+          <div class="product-name">ScentFlow Discovery Set</div>
+          <div class="product-note">Spray Sample · 10ml</div>
+          <div class="product-desc">Sample all three sprays before committing to a full bottle.</div>
+          <div class="product-price">₦3,500 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="ScentFlow Discovery Set Spray" data-price="3500">Add to Bag</button>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="collection-panel" id="col-perfume">
+      <div class="col-header">
+        <div class="col-title">Perfume Collection</div>
+        <div class="col-desc">Sample vials of our eau de parfum — highest concentration, deepest sillage. 10ml each.</div>
+      </div>
+      <div class="products-grid samples-grid">
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 4.5s ease-in-out 0.0s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#c9a84c" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#c9a84c"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(201,168,76,0.06)" stroke="rgba(201,168,76,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(201,168,76,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(201,168,76,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(201,168,76,0.2)"/></svg></div>
+          <div class="product-name">Club de Nuirt</div>
+          <div class="product-note">Perfume Sample · 10ml</div>
+          <div class="product-desc">The full eau de parfum expression — rich oud, smoked leather, deep amber resins.</div>
+          <div class="product-price">₦3,500 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="Club de Nuirt Perfume" data-price="3500">Add to Bag</button>
+        </div>
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 5.1s ease-in-out 0.4s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#8b9e8b" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#8b9e8b"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(139,158,139,0.1)" stroke="rgba(139,158,139,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(139,158,139,0.08)" stroke="rgba(139,158,139,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(139,158,139,0.06)" stroke="rgba(139,158,139,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(139,158,139,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(139,158,139,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(139,158,139,0.2)"/></svg></div>
+          <div class="product-name">Kaylia</div>
+          <div class="product-note">Perfume Sample · 10ml</div>
+          <div class="product-desc">Elevated vetiver and bergamot anchored in white cedar and sandalwood.</div>
+          <div class="product-price">₦3,000 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="Kaylia Perfume" data-price="3000">Add to Bag</button>
+        </div>
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 5.7s ease-in-out 0.8s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#d4a8a0" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#d4a8a0"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(212,168,160,0.1)" stroke="rgba(212,168,160,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(212,168,160,0.08)" stroke="rgba(212,168,160,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(212,168,160,0.06)" stroke="rgba(212,168,160,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(212,168,160,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(212,168,160,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(212,168,160,0.2)"/></svg></div>
+          <div class="product-name">Wave Plan Perfect</div>
+          <div class="product-note">Perfume Sample · 10ml</div>
+          <div class="product-desc">Full-bloom floral with rose absolute, night jasmine, and vanilla musk.</div>
+          <div class="product-price">₦2,800 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="Wave Plan Perfect Perfume" data-price="2800">Add to Bag</button>
+        </div>
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 6.3s ease-in-out 1.2000000000000002s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#a3833a" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#a3833a"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(163,131,58,0.1)" stroke="rgba(163,131,58,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(163,131,58,0.08)" stroke="rgba(163,131,58,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(163,131,58,0.06)" stroke="rgba(163,131,58,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(163,131,58,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(163,131,58,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(163,131,58,0.2)"/></svg></div>
+          <div class="product-name">Club de Nuirt — Intense</div>
+          <div class="product-note">Perfume Sample · 10ml</div>
+          <div class="product-desc">A concentrated parfum cut for those who want the boldest dry-down.</div>
+          <div class="product-price">₦3,500 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="Club de Nuirt - Intense Perfume" data-price="3500">Add to Bag</button>
+        </div>
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 4.5s ease-in-out 1.6s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#6f8f6f" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#6f8f6f"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(111,143,111,0.1)" stroke="rgba(111,143,111,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(111,143,111,0.08)" stroke="rgba(111,143,111,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(111,143,111,0.06)" stroke="rgba(111,143,111,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(111,143,111,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(111,143,111,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(111,143,111,0.2)"/></svg></div>
+          <div class="product-name">Kaylia — Citrus Edit</div>
+          <div class="product-note">Perfume Sample · 10ml</div>
+          <div class="product-desc">A brighter parfum variant balancing citrus against the cedar base.</div>
+          <div class="product-price">₦3,000 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="Kaylia - Citrus Edit Perfume" data-price="3000">Add to Bag</button>
+        </div>
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 5.1s ease-in-out 0.0s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#b9847a" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#b9847a"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(185,132,122,0.1)" stroke="rgba(185,132,122,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(185,132,122,0.08)" stroke="rgba(185,132,122,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(185,132,122,0.06)" stroke="rgba(185,132,122,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(185,132,122,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(185,132,122,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(185,132,122,0.2)"/></svg></div>
+          <div class="product-name">Wave Plan Perfect — Night</div>
+          <div class="product-note">Perfume Sample · 10ml</div>
+          <div class="product-desc">An intensified floral parfum built for low light and long nights.</div>
+          <div class="product-price">₦2,800 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="Wave Plan Perfect - Night Perfume" data-price="2800">Add to Bag</button>
+        </div>
+        <div class="product-card sample-card">
+          <div class="sample-tag">Sample</div>
+          <div class="product-icon"><svg viewBox="0 0 80 110" fill="none" width="64" style="animation: bottleFloat 5.7s ease-in-out 0.4s infinite;"><rect x="30" y="5" width="20" height="10" rx="2" fill="#bca36b" opacity="0.7"/><rect x="26" y="3" width="28" height="9" rx="3" fill="#bca36b"/><path d="M15 40 Q15 22 30 18 L50 18 Q65 22 65 40" fill="rgba(188,163,107,0.1)" stroke="rgba(188,163,107,0.5)" stroke-width="1"/><rect x="15" y="40" width="50" height="65" rx="3" fill="rgba(188,163,107,0.08)" stroke="rgba(188,163,107,0.4)" stroke-width="1"/><rect x="24" y="55" width="32" height="35" rx="1" fill="rgba(188,163,107,0.06)" stroke="rgba(188,163,107,0.2)" stroke-width="0.5"/><rect x="32" y="63" width="16" height="1.5" rx="0.75" fill="rgba(188,163,107,0.6)"/><rect x="29" y="68" width="22" height="1" rx="0.5" fill="rgba(188,163,107,0.3)"/><rect x="31" y="73" width="18" height="1" rx="0.5" fill="rgba(188,163,107,0.2)"/></svg></div>
+          <div class="product-name">ScentFlow Discovery Set</div>
+          <div class="product-note">Perfume Sample · 10ml</div>
+          <div class="product-desc">Try all three parfum lines before choosing your milestone bottle.</div>
+          <div class="product-price">₦4,000 <span>sample vial · ships in 24–48 hrs</span></div>
+          <button class="btn-add" data-product="ScentFlow Discovery Set Perfume" data-price="4000">Add to Bag</button>
+        </div>
+      </div>
+    </div>
+ 
+  </div>
+</section>
+ 
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="pricing-inner">
+    <div class="section-label">Get Started</div>
+    <h2>Choose your track</h2>
+    <p>Both paths lead to the same reward — just at different rhythms.</p>
+    <div class="pricing-cards">
+      <div class="price-card featured">
+        <div class="price-badge">Most Popular</div>
+        <div class="price-track">Subscription Track</div>
+        <div class="price-sub-label">The Monthly Routine</div>
+        <div class="price-amount">₦8,500</div>
+        <div class="price-period">per month · auto-renews</div>
+        <ul class="price-features">
+          <li>1 premium mist delivered monthly</li>
+          <li>Automatic billing &amp; fulfillment</li>
+          <li>Milestone reward at Month 5</li>
+          <li>Pause or cancel anytime</li>
+        </ul>
+        <button class="btn-primary" id="pricingSubscribeBtn">Start Subscription</button>
+      </div>
+      <div class="price-card">
+        <div style="height:32px;margin-bottom:2rem;"></div>
+        <div class="price-track">Direct Track</div>
+        <div class="price-sub-label">The On-Demand Routine</div>
+        <div class="price-amount">₦9,500</div>
+        <div class="price-period">per unit · buy anytime</div>
+        <ul class="price-features">
+          <li>Buy whenever you want</li>
+          <li>Ships within 24–48 hours</li>
+          <li>Digital punch card tracking</li>
+          <li>5th purchase earns full bottle</li>
+        </ul>
+        <a href="#shop" class="btn-primary">Shop Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- CEO -->
+<section class="ceo-section" id="ceo">
+  <div class="ceo-inner">
+    <div class="ceo-photo-wrap">
+      <div class="ceo-photo-frame">
+        <div class="ceo-initials">L.A.</div>
+        <div class="ceo-name-plate"><p>Founder &amp; CEO</p></div>
+      </div>
+      <div class="ceo-corner"></div>
+    </div>
+    <div class="ceo-content">
+      <div class="section-label" style="color:var(--gold);">Meet the Founder</div>
+      <h2>The person <em>behind</em> the scent</h2>
+      <div class="ceo-title">Founder &amp; Chief Executive Officer</div>
+      <blockquote class="ceo-quote">"Fragrance is the one luxury that doesn't ask you to look a certain way. It asks you to feel a certain way — and that feeling should be available to everyone."</blockquote>
+      <p class="ceo-bio">ScentFlow was born from a simple frustration: premium fragrances were either locked behind steep one-time prices or buried in confusing subscription models. We built a dual-track system that gives customers the freedom to choose how they want to own their scent journey — and rewards them for every step of it.<br><br>Based in Lagos, we source the finest fragrance oils, hand-fill every mist in small batches, and ship across Nigeria with the care of a boutique — at a price that makes sense.</p>
+      <div class="ceo-sig">— LADE</div>
+    </div>
+  </div>
+</section>
+ 
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-inner">
+    <div class="contact-info">
+      <div class="section-label">Get in Touch</div>
+      <h2>We'd love to <em>hear</em> from you</h2>
+      <p>Whether you have a question about your order, want to stock ScentFlow, or just want to talk fragrance — we're here.</p>
+      <div class="contact-details">
+        <div class="contact-detail-item"><div class="contact-icon">✉</div><div><h4>Email</h4><p>euniceadeyanju7@gmail.com</p></div></div>
+        <div class="contact-detail-item"><div class="contact-icon">📱</div><div><h4>WhatsApp</h4><p>+234 8131604072</p></div></div>
+        <div class="contact-detail-item"><div class="contact-icon">📍</div><div><h4>Location</h4><p>Lagos, Nigeria</p></div></div>
+        <div class="contact-detail-item"><div class="contact-icon">⏰</div><div><h4>Response Time</h4><p>Within 24 hours, Mon – Fri</p></div></div>
+      </div>
+    </div>
+    <div class="contact-form-wrap">
+      <h3>Send us a message</h3>
+      <p class="form-note">All fields required</p>
+      <div id="contactFormWrap">
+        <form class="contact-form" id="contactForm" onsubmit="submitContact(event)">
+          <div class="form-row">
+            <div class="form-group"><label>Full Name</label><input type="text" id="cName" placeholder="Amara Okafor" required></div>
+            <div class="form-group"><label>Email</label><input type="email" id="cEmail" placeholder="amara@example.com" required></div>
+          </div>
+          <div class="form-group">
+            <label>Subject</label>
+            <select id="cSubject" required>
+              <option value="">Choose a topic</option>
+              <option>Order enquiry</option>
+              <option>Subscription help</option>
+              <option>Wholesale / stocking</option>
+              <option>General feedback</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Message</label><textarea id="cMessage" placeholder="Tell us what's on your mind..." required></textarea></div>
+          <button type="submit" class="modal-submit">Send Message</button>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <div class="check-icon">✦</div>
+          <h4>Message received</h4>
+          <p>We'll get back to you within 24 hours.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- FOOTER -->
+<footer>
+  <a href="#top" class="footer-logo">Scent<span>Flow</span></a>
+  <p>© 2026 ScentFlow. All rights reserved.</p>
+  <p>Crafted in Lagos, Nigeria</p>
+</footer>
+ 
+<!-- FLOATING BAG -->
+<button class="floating-bag" id="floatingBag" aria-label="View bag">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 7h12l1.5 13h-15L6 7z"/><path d="M9 7a3 3 0 0 1 6 0" /></svg>
+  <span class="bag-count hidden" id="bagCount">0</span>
+</button>
+<div class="bag-panel" id="bagPanel">
+  <div class="bag-panel-header">
+    <h4>Your Bag</h4>
+    <button class="bag-panel-close" id="bagPanelClose">✕</button>
+  </div>
+  <div class="bag-items" id="bagItems">
+    <div class="bag-empty">Your bag is empty. Add a sample to get started.</div>
+  </div>
+  <div class="bag-panel-footer" id="bagFooter" style="display:none;">
+    <div class="bag-total-row"><span>Total</span><span id="bagTotal">₦0</span></div>
+    <button class="bag-checkout-btn">Checkout</button>
+  </div>
+</div>
+ 
+<script>
+/* DARK MODE */
+const root = document.documentElement;
+const track = document.getElementById('toggleTrack');
+const label = document.getElementById('themeLabel');
+const saved = localStorage.getItem('sfTheme');
+if (saved === 'dark') { root.setAttribute('data-theme','dark'); track.classList.add('on'); label.textContent='Dark'; }
+track.addEventListener('click', () => {
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  track.classList.toggle('on', !isDark);
+  label.textContent = isDark ? 'Light' : 'Dark';
+  localStorage.setItem('sfTheme', isDark ? 'light' : 'dark');
+});
+ 
+/* HAMBURGER */
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('navMenu');
+hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); navMenu.classList.toggle('open'); });
+navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { hamburger.classList.remove('open'); navMenu.classList.remove('open'); }));
+ 
+/* ACCOUNT MODAL */
+const modal = document.getElementById('accountModal');
+const openModal = () => modal.classList.add('active');
+const closeModal = () => modal.classList.remove('active');
+document.getElementById('subscribeBtn').addEventListener('click', openModal);
+document.getElementById('navGetStarted').addEventListener('click', e => { e.preventDefault(); openModal(); });
+document.getElementById('heroGetStarted').addEventListener('click', e => { e.preventDefault(); openModal(); });
+document.getElementById('pricingSubscribeBtn').addEventListener('click', openModal);
+document.getElementById('modalClose').addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+document.querySelectorAll('.modal-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+const showSuccess = () => {
+  document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-success').classList.add('active');
+};
+document.getElementById('signupSubmit').addEventListener('click', () => {
+  if (!document.getElementById('firstName').value.trim() || !document.getElementById('signupEmail').value.trim()) { alert('Please fill in your name and email.'); return; }
+  showSuccess();
+});
+document.getElementById('loginSubmit').addEventListener('click', () => {
+  if (!document.getElementById('loginEmail').value.trim()) { alert('Please enter your email address.'); return; }
+  showSuccess();
+});
+ 
+/* COLLECTION TABS */
+document.querySelectorAll('.col-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.col-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.collection-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('col-' + tab.dataset.col).classList.add('active');
+  });
+});
+ 
+/* JOURNEY */
+let journeyFilled = 0;
+const journeyTotal = 5;
+function renderJourney() {
+  const row = document.getElementById('journeyCircles');
+  row.innerHTML = '';
+  for (let i = 0; i < journeyTotal; i++) {
+    if (i > 0) { const c = document.createElement('div'); c.className = 'circle-connector'; row.appendChild(c); }
+    const step = document.createElement('div'); step.className = 'circle-step';
+    const circle = document.createElement('div');
+    const isLast = i === journeyTotal - 1;
+    const isDone = i < journeyFilled;
+    const isRewardEarned = isLast && journeyFilled === journeyTotal;
+    if (isRewardEarned) {
+      circle.className = 'circle reward-earned';
+      circle.innerHTML = '✦<br><span style="font-size:0.55rem;">Unwrapped!</span>';
+    }
+    else if (isLast) {
+      circle.className = 'circle reward-idle';
+      circle.innerHTML = '<div class="gift-wrap-bg"></div><div class="gift-ribbon-v"></div><div class="gift-ribbon-h"></div><div class="gift-bow">🎀</div><div class="gift-label">Reward<br>Wrapped</div>';
+    }
+    else if (isDone) { circle.className = 'circle filled'; circle.textContent = '✓'; }
+    else { circle.className = 'circle empty'; circle.textContent = i + 1; }
+    circle.addEventListener('click', () => {
+      if (i === journeyFilled - 1) journeyFilled = i;
+      else if (i === journeyFilled && i < journeyTotal - 1) journeyFilled = i + 1;
+      else if (i === journeyTotal - 1 && journeyFilled === journeyTotal - 1) journeyFilled = journeyTotal;
+      renderJourney();
+    });
+    const lbl = document.createElement('div'); lbl.className = 'circle-label'; lbl.textContent = isLast ? 'Reward' : 'Purchase ' + (i + 1);
+    step.appendChild(circle); step.appendChild(lbl); row.appendChild(step);
+  }
+  const badge = document.getElementById('journeyBadge');
+  const badgeText = document.getElementById('journeyBadgeText');
+  if (journeyFilled === journeyTotal) { badgeText.textContent = '🏆  Full bottle reward unlocked!'; badge.style.borderColor = 'var(--gold)'; badge.style.background = 'rgba(201,168,76,0.18)'; }
+  else { const r = journeyTotal - journeyFilled; badgeText.textContent = journeyFilled + ' of 5 complete — ' + r + ' more to go'; badge.style.borderColor = ''; badge.style.background = ''; }
+}
+document.getElementById('resetJourneyBtn').addEventListener('click', () => { journeyFilled = 0; renderJourney(); });
+renderJourney();
+ 
+/* BAG STATE */
+let bagItems = [];
+const bagCountEl = document.getElementById('bagCount');
+const bagItemsEl = document.getElementById('bagItems');
+const bagFooterEl = document.getElementById('bagFooter');
+const bagTotalEl = document.getElementById('bagTotal');
+const bagPanel = document.getElementById('bagPanel');
+ 
+function renderBag() {
+  bagCountEl.textContent = bagItems.length;
+  bagCountEl.classList.toggle('hidden', bagItems.length === 0);
+  if (bagItems.length === 0) {
+    bagItemsEl.innerHTML = '<div class="bag-empty">Your bag is empty. Add a sample to get started.</div>';
+    bagFooterEl.style.display = 'none';
+    return;
+  }
+  bagItemsEl.innerHTML = bagItems.map(item =>
+    `<div class="bag-item"><span class="bag-item-name">${item.name}</span><span class="bag-item-price">₦${item.price.toLocaleString()}</span></div>`
+  ).join('');
+  const total = bagItems.reduce((sum, i) => sum + i.price, 0);
+  bagTotalEl.textContent = '₦' + total.toLocaleString();
+  bagFooterEl.style.display = 'block';
+}
+ 
+document.getElementById('floatingBag').addEventListener('click', () => bagPanel.classList.toggle('open'));
+document.getElementById('bagPanelClose').addEventListener('click', () => bagPanel.classList.remove('open'));
+ 
+document.querySelectorAll('.btn-add').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const name = this.dataset.product;
+    const price = parseInt(this.dataset.price || '0', 10);
+    bagItems.push({ name, price });
+    renderBag();
+    this.textContent = '✓ Added — ' + name;
+    this.classList.add('added'); this.disabled = true;
+    setTimeout(() => { this.textContent = 'Add to Bag'; this.classList.remove('added'); this.disabled = false; }, 2000);
+  });
+});
+renderBag();
+ 
+/* CONTACT */
+function submitContact(e) {
+  e.preventDefault();
+  document.getElementById('contactForm').style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+}
+</script>
 </body>
 </html>
