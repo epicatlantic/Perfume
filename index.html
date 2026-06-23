@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LADE's Scent | World of frangrance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- SITE NAVIGATION HEADER -->
+    <header class="site-header">
+        <div class="header-container">
+            <div class="nav-left">
+                <a href="#" class="brand-logo">L</a>
+            </div>
+            <div class="nav-right">
+                <span class="view-mode" id="theme-status">Daylight View</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="showroom-wrapper">
+        
+        <!-- THE CINEMATIC HERO CANVAS (LEFT) -->
+        <section class="display-stage" id="ambient-stage">
+            <div class="cabinet-lighting">
+                <div class="lamp">
+                    <div class="lamp-shade"></div>
+                    <div class="lamp-glow"></div>
+                    <div class="pull-string" id="theme-pull-string" title="Pull to toggle lights"></div>
+                </div>
+            </div>
+
+            <div class="hero-story-container">
+                <div class="hero-text-side">
+                    <h1 class="hero-headline">Amazing scent that <br>reflects <span id="hero-dynamic-word" class="serif-italic">character</span></h1>
+                    <p class="hero-subtext" id="hero-dynamic-subtext">L'Essence delivers distinctive fragrances with an elegant, modern touch—crafted meticulously for individuals who stand out.</p>
+                    <div class="hero-cta-group">
+                        <button class="btn-dark" id="hero-primary-btn">Discover collection</button>
+                        <button class="btn-light" id="contact-trigger-btn">Contact us</button>
+                    </div>
+                </div>
+
+                <div class="hero-image-side">
+                    <div class="silk-drape-overlay"></div>
+                    <div class="showcase-bottle-wrapper">
+                        <div class="hero-perfume-bottle" id="hero-bottle-render">
+                            <div class="hero-cap"></div>
+                            <div class="hero-glass-body liquid-woody" id="hero-liquid-core">
+                                <div class="hero-glass-shine"></div>
+                                <div class="hero-bottle-inner-label">
+                                    <p class="label-brand">L'ESSENCE</p>
+                                    <h3 id="hero-label-name">Santal Nuit</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="floating-product-card">
+                        <span class="badge-tag">Collection Focus</span>
+                        <h4 id="badge-title">Santal Nuit</h4>
+                        <p id="badge-meta">Woody / Rich</p>
+                        <span class="badge-price" id="badge-price">$145.00</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- THE ARCHITECTURAL ARCHIVE PANEL (RIGHT) -->
+        <aside class="info-sidebar">
+            <div class="sidebar-header-tag">
+                <span class="scent-tag">Boutique Grid Selection</span>
+                <p class="sidebar-instruction">Click a bottle below to transition the showroom narrative canvas</p>
+            </div>
+
+            <div class="cabinet-grid-wrapper">
+                <div class="cabinet-frame">
+                    
+                    <!-- SHELF ROW 1 -->
+                    <div class="cabinet-shelf">
+                        <div class="shelf-surface"></div>
+                        <div class="shelf-items">
+                            
+                            <div class="shelf-item locked" 
+                                 data-name="Santal Nuit" data-price="$145.00" data-tag="Woody / Rich" data-word="character"
+                                 data-desc="An intimate, shadow-filled atmosphere captured in premium glass. Dark papyrus and spicy cardamom give way to a creamy Australian sandalwood base." 
+                                 data-top="Cardamom, Cypress" data-heart="Papyrus, Iris Accord" data-base="Sandalwood"
+                                 data-accent="var(--accent-woody)" data-liquid="liquid-woody"
+                                 data-stage-bg="linear-gradient(135deg, #ecdccf 0%, #d5bead 100%)">
+                                <div class="perfume-bottle">
+                                    <div class="cap"></div>
+                                    <div class="glass-body liquid-woody"><div class="shimmer-glare"></div><span>SANTAL</span></div>
+                                </div>
+                            </div>
+
+                            <div class="shelf-item" 
+                                 data-name="Fleur de Cerisier" data-price="$160.00" data-tag="Floral / Delicate" data-word="elegance"
+                                 data-desc="A bright, crisp interpretation of spring rain in luxury gardens. Petals of cherry blossom floating down onto soft, clean white musks and Bergamot zest." 
+                                 data-top="Calabrian Bergamot" data-heart="Sakura Blossom" data-base="White Musk"
+                                 data-accent="var(--accent-floral)" data-liquid="liquid-floral"
+                                 data-stage-bg="linear-gradient(135deg, #f5e6e8 0%, #dec2c5 100%)">
+                                <div class="perfume-bottle">
+                                    <div class="cap"></div>
+                                    <div class="glass-body liquid-floral"><div class="shimmer-glare"></div><span>FLEUR</span></div>
+                                </div>
+                            </div>
+
+                            <div class="shelf-item" 
+                                 data-name="Agrume Fraîche" data-price="$130.00" data-tag="Citrus / Raw" data-word="vibrancy"
+                                 data-desc="An injection of pure, morning energy. Crushed green lemons and vibrant Tunisian neroli oil anchored firmly by a sophisticated dry down of crisp amber." 
+                                 data-top="Crushed Lemon" data-heart="Tunisian Neroli" data-base="Clean Amber"
+                                 data-accent="var(--accent-citrus)" data-liquid="liquid-citrus"
+                                 data-stage-bg="linear-gradient(135deg, #f0f5e6 0%, #d2ddbe 100%)">
+                                <div class="perfume-bottle">
+                                    <div class="cap"></div>
+                                    <div class="glass-body liquid-citrus"><div class="shimmer-glare"></div><span>AGRUME</span></div>
+                                </div>
+                            </div>
+
+                            <div class="shelf-item" 
+                                 data-name="Oud Impérial" data-price="$195.00" data-tag="Exotic / Deep" data-word="mystery"
+                                 data-desc="A dense, mysterious journey through dark woods and rare resins. A highly sophisticated, smoky agarwood core designed for the bold iconoclast." 
+                                 data-top="Spiced Saffron" data-heart="Smoky Agarwood" data-base="Dark Leather"
+                                 data-accent="var(--accent-oud)" data-liquid="liquid-oud"
+                                 data-stage-bg="linear-gradient(135deg, #dfdcd6 0%, #c4bfae 100%)">
+                                <div class="perfume-bottle">
+                                    <div class="cap gold-cap"></div>
+                                    <div class="glass-body liquid-oud"><div class="shimmer-glare"></div><span>OUD</span></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- SHELF ROW 2 -->
+                    <div class="cabinet-shelf">
+                        <div class="shelf-surface"></div>
+                        <div class="shelf-items">
+                            <div class="shelf-item" data-name="Vétiver Vert" data-price="$150.00" data-tag="Earthy / Fresh" data-word="grounding" data-desc="Crisp native grass notes paired with clean bergamot and a deeply grounding, smoky Haitian vetiver base." data-top="Bergamot" data-heart="Wild Sage" data-base="Haitian Vetiver" data-accent="var(--accent-citrus)" data-liquid="liquid-citrus" data-stage-bg="linear-gradient(135deg, #e6ecdf 0%, #cad4c1 100%)">
+                                <div class="perfume-bottle"><div class="cap"></div><div class="glass-body liquid-citrus"><div class="shimmer-glare"></div><span>VERT</span></div></div>
+                            </div>
+                            <div class="shelf-item" data-name="Rose Noir" data-price="$170.00" data-tag="Floral / Opulent" data-word="passion" data-desc="A deep, dramatic midnight rose. Velvety damask rose absolute blended seamlessly with dark patchouli and black pepper." data-top="Black Pepper" data-heart="Damask Rose" data-base="Patchouli" data-accent="var(--accent-floral)" data-liquid="liquid-floral" data-stage-bg="linear-gradient(135deg, #fcdbe0 0%, #e2b3ba 100%)">
+                                <div class="perfume-bottle"><div class="cap"></div><div class="glass-body liquid-floral"><div class="shimmer-glare"></div><span>ROSE</span></div></div>
+                            </div>
+                            <div class="shelf-item" data-name="Ambre Gris" data-price="$180.00" data-tag="Warm / Mineral" data-word="warmth" data-desc="A complex, mineral warmth that mimics salted skin, rich labdanum resin, and absolute vanilla bean extracts." data-top="Sea Salt" data-heart="Labdanum" data-base="Vanilla Bean" data-accent="var(--accent-woody)" data-liquid="liquid-woody" data-stage-bg="linear-gradient(135deg, #f6ebd8 0%, #dfcea9 100%)">
+                                <div class="perfume-bottle"><div class="cap"></div><div class="glass-body liquid-woody"><div class="shimmer-glare"></div><span>AMBRE</span></div></div>
+                            </div>
+                            <div class="shelf-item" data-name="Cuir Blanc" data-price="$165.00" data-tag="Leathery / Smooth" data-word="prestige" data-desc="Clean structural leather lines. Sharp white pepper combined with white musk and structural iris." data-top="White Pepper" data-heart="Iris Accord" data-base="White Leather" data-accent="var(--accent-oud)" data-liquid="liquid-oud" data-stage-bg="linear-gradient(135deg, #eaeaea 0%, #c8c8c8 100%)">
+                                <div class="perfume-bottle"><div class="cap gold-cap"></div><div class="glass-body liquid-oud"><div class="shimmer-glare"></div><span>CUIR</span></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- COMPACT OLFACTORY PYRAMID BLUEPRINT DISPLAY -->
+            <div class="pyramid-data-card">
+                <div class="pyramid-row">
+                    <span class="pyr-lbl">Top note:</span>
+                    <span id="side-top" class="pyr-val">—</span>
+                </div>
+                <div class="pyramid-row">
+                    <span class="pyr-lbl">Heart note:</span>
+                    <span id="side-heart" class="pyr-val">—</span>
+                </div>
+                <div class="pyramid-row">
+                    <span class="pyr-lbl">Base note:</span>
+                    <span id="side-base" class="pyr-val">—</span>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- INTERACTIVE CONTACT MODAL COMPONENT -->
+    <div class="contact-modal-overlay" id="contact-modal">
+        <div class="contact-modal-card">
+            <button class="modal-close-btn" id="contact-close-btn" aria-label="Close form">&times;</button>
+            <div class="modal-inner-layout">
+                <div class="modal-decor-side">
+                    <h3>LADE'S Scent</h3>
+                    <p>EXPLORE THE WORLD OF FRAGRANCES</p>
+                </div>
+                <div class="modal-form-side">
+                    <h2>Connect With Us</h2>
+                    <p class="form-intro">Leave a message for private showroom bookings or order inquiries.</p>
+                    <form id="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully!'); document.getElementById('contact-modal').classList.remove('open');">
+                        <div class="form-field">
+                            <label for="client-name">Your Name</label>
+                            <input type="text" id="client-name" required placeholder="Jean Dupont">
+                        </div>
+                        <div class="form-field">
+                            <label for="client-email">Email Address</label>
+                            <input type="email" id="client-email" required placeholder="Davidtimilehin146@gmail.com">
+                        </div>
+                        <div class="form-field">
+                            <label for="client-message">Inquiry Details</label>
+                            <textarea id="client-message" rows="4" required placeholder="Tell us about your fragrances preference..."></textarea>
+                        </div>
+                        <button type="submit" class="form-submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
